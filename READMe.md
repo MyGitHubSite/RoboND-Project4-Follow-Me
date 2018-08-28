@@ -1,7 +1,7 @@
-#Udacity RoboND - Project 4: Deep Learning - Follow Me
+# Udacity RoboND - Project 4: Deep Learning - Follow Me
 ---
 
-###Hardware Setup
+### Hardware Setup
 ---
 Case
 Motherboard
@@ -11,7 +11,7 @@ Samsung 950 M.2
 1 Samsung 2TB SSD
 4 Western Digital 4TB Hard Drivews
 
-###Software Setup
+### Software Setup
 ---
 Windows 10
 CUDA 8.0
