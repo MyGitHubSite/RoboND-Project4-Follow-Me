@@ -2,7 +2,6 @@
 ---
 
 ### Hardware Setup
----
 Case
 Motherboard
 Intel CPU
@@ -12,14 +11,27 @@ Samsung 950 M.2
 4 Western Digital 4TB Hard Drivews
 
 ### Software Setup
----
-Windows 10
-CUDA 8.0
-Cudnn 7.12
+Windows 10, CUDA 8.0, Cudnn 7.12
 
-Anaconda with Python 3.5.2
-Environment.yml;
-pip uninstall tensorflow
+Anaconda with Python 3.5.2   
+Environment.yml  
+pip uninstall tensorflow  
 pip install tensorflow-gpu==1.3.0
 
+### What are we trying to do
+---
 
+### Network
+---
+
+### Hyperparameters
+---
+
+### Results
+---
+
+### Future Enhancements
+---
+1
+2
+3
