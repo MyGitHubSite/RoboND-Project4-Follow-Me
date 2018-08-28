@@ -21,11 +21,31 @@ pip install tensorflow-gpu==1.3.0
 ### What are we trying to do
 ---
 
+Would not work for cats, dogs, etc..
+
 ### Network
 ---
 
+Output
+Decoder
+Decoder
+Decoder
+Conv
+Encoder
+Encoder
+Encoder
+Conv
+Inputs
+
+
 ### Hyperparameters
 ---
+rearning rate
+epochs
+batch_size
+steps
+steps_per_validation
+workers
 
 ### Results
 ---
@@ -47,6 +67,6 @@ There are three different predictions available from the helper code provided:
 
 ### Future Enhancements
 ---
-1
-2
-3
+    1 Collect more data
+    2 Pooling layers, dropout
+    3 Deeper layers (more memory)
