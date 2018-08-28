@@ -40,12 +40,12 @@ Inputs
 
 ### Hyperparameters
 ---
-rearning rate
-epochs
-batch_size
-steps
-steps_per_validation
-workers
+learning_rate = 0.005   # 0.001
+batch_size = 32         # 64
+num_epochs = 20         # 15
+steps_per_epoch = 200   # 4131//batch_size+1    # 1000
+validation_steps = 100   # 1184//batch_size+1   # 50
+workers = 8             # 4
 
 ### Results
 ---
