@@ -79,7 +79,7 @@ workers = 8             # 4
 
 Run   | Epochs |  LR   | Batch | Steps/Epoch | Runtime | Weight | IOU   | Score | HTML
 :---: | :----: | :---: | :---: | :---------: | :-----: | :----: | :---: | :---: | ----
-1     | 20     | 0.005 | 32    | 138         | 12m15s  | 0.70   | 0.27  | 0.19  | [html](../blob/master/html/model_training_run1.html)
+1     | 20     | 0.005 | 32    | 138         | 12m15s  | 0.70   | 0.27  | 0.19  | [html](../html/model_training_run1.html)
 2     | 20     | 0.005 | 32    | 138         | 15m20s  | 0.72   | 0.52  | 0.37  | [html](../blob/master/LICENSE)
 3     | 20     | 0.005 | 32    | 138         | 16m45s  | 0.75   | 0.56  | 0.41  | [html](../blob/master/LICENSE)
 4     | 20     | 0.005 | 32    | 138         | 17m41s  | 0.68   | 0.48  | 0.33  | [html](../blob/master/LICENSE)
