@@ -77,17 +77,17 @@ workers = 8             # 4
 
 **Model Results**
 
-Run   | Epochs |  LR   | Batch | Steps/Epoch | Runtime | Weight | IOU   | Score | HTML
+Run   | Epochs |  LR   | Batch | Steps/Epoch | Runtime | Weight | IOU   | Score | PDF
 :---: | :----: | :---: | :---: | :---------: | :-----: | :----: | :---: | :---: | ----
-1     | 20     | 0.005 | 32    | 138         | 12m15s  | 0.70   | 0.27  | 0.19  | [html](/html/model_training_run1.html)
-2     | 20     | 0.005 | 32    | 138         | 15m20s  | 0.72   | 0.52  | 0.37  | [html](../blob/master/LICENSE)
-3     | 20     | 0.005 | 32    | 138         | 16m45s  | 0.75   | 0.56  | 0.41  | [html](../blob/master/LICENSE)
-4     | 20     | 0.005 | 32    | 138         | 17m41s  | 0.68   | 0.48  | 0.33  | [html](../blob/master/LICENSE)
-5     | 20     | 0.005 | 32    | 200         | 25m18s  | 0.76   | 0.56  | 0.42  | [html](../blob/master/LICENSE)
-6     | 20     | 0.005 | 32    | 200         | 28m40s  | 0.67   | 0.53  | 0.36  | [html](../blob/master/LICENSE)
-7     | 20     | 0.005 | 32    | 200         | 27m37s  | 0.77   | 0.59  | 0.46  | [html](../blob/master/LICENSE)
-8     | 20     | 0.005 | 32    | 200         | 28m50s  | 0.76   | 0.52  | 0.397 | [html](../blob/master/LICENSE)
-9     | 50     | 0.005 | 32    | 200         | ms  | 0.   | 0. | 0.  | [html](../blob/master/LICENSE)
+1     | 20     | 0.005 | 32    | 138         | 12m15s  | 0.70   | 0.27  | 0.19  | [Run1](/pdfs/Run1.pdf)
+2     | 20     | 0.005 | 32    | 138         | 15m20s  | 0.72   | 0.52  | 0.37  | [Run2](/pdfs/Run2.pdf)
+3     | 20     | 0.005 | 32    | 138         | 16m45s  | 0.75   | 0.56  | 0.41  | [Run3](/pdfs/Run3.pdf)
+4     | 20     | 0.005 | 32    | 138         | 17m41s  | 0.68   | 0.48  | 0.33  | [Run4](/pdfs/Run4.pdf)
+5     | 20     | 0.005 | 32    | 200         | 25m18s  | 0.76   | 0.56  | 0.42  | [Run5](/pdfs/Run5.pdf)
+6     | 20     | 0.005 | 32    | 200         | 28m40s  | 0.67   | 0.53  | 0.36  | [Run6](/pdfs/Run6.pdf)
+7     | 20     | 0.005 | 32    | 200         | 27m37s  | 0.77   | 0.59  | 0.46  | [Run7](/pdfs/Run7.pdf)
+8     | 20     | 0.005 | 32    | 200         | 28m50s  | 0.76   | 0.52  | 0.397 | [Run8](/pdfs/Run8.pdf)
+9     | 50     | 0.005 | 32    | 200         | ms  | 0.   | 0. | 0.  | [Run9](/pdfs/Run9.pdf)
 
 ### Future Enhancements
 ---
