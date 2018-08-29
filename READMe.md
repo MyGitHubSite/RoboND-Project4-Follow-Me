@@ -74,8 +74,14 @@ i | epochs | lr | parameters | time | weight | iou | score
 2 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
 3 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
 
-Markdown | Less | Pretty
---- | --- | ---
+Run | Epochs | LR | parameters | time | weight | iou | score
+--- | --- | --- | --- | --- | --- | --- | ---
+1 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
+
+
+
+
+
 *Still* | `renders` | **nicely**
 1 | 2 | 3
 
