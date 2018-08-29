@@ -54,26 +54,28 @@ workers = 8             # 4
 ### Results
 ---
 
-Hyperparameters: LR=0.005, Batch=32, Epochs=20, Epoch Steps=138
-Run 1: 1x1Conv(16), Enc(32), 1x1Conv(64), Decoder
-Run 2: 1x1Conv(16), Enc(32), Enc(64), 1x1Conv(128), Dec(64), Dec(32)
-Run 3: 1x1Conv(16), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
-Run 4: 1x1Conv(16), Enc(32), Enc(64), Enc(128), Enc(256), 1x1 Conv(512), Dec(256), Dec(128), Dec(64), Dec(32)
+**Hyperparameters: LR=0.005, Batch=32, Epochs=20, Epoch Steps=138
 
-Hyperparameters: Same as above but changed Epoch Steps to 200
-Run 5: 1x1Conv(16), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
-Run 6: 1x1Conv(16), Enc(32), Enc(64), Enc(128), Enc(256), 1x1 Conv(512), Dec(256), Dec(128), Dec(64), Dec(32)
+    Run 1: 1x1Conv(16), Enc(32), 1x1Conv(64), Decoder
+    Run 2: 1x1Conv(16), Enc(32), Enc(64), 1x1Conv(128), Dec(64), Dec(32)
+    Run 3: 1x1Conv(16), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
+    Run 4: 1x1Conv(16), Enc(32), Enc(64), Enc(128), Enc(256), 1x1 Conv(512), Dec(256), Dec(128), Dec(64), Dec(32)
 
-Hyperparameters: Same as Run 5 and 6 but changed the number of filters on the first 1x1conv layer to 32
-Run 7: 1x1Conv(32), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
-Run 8: 1x1Conv(32), Enc(32), Enc(64), Enc(128), Enc(256), 1x1 Conv(512), Dec(256), Dec(128), Dec(64), Dec(32)
+**Hyperparameters: Same as above but changed Epoch Steps to 200
 
-Hyperparameters: Same as Run 7 but changed Epochs to 50
-Run 9: 1x1Conv(32), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
+    Run 5: 1x1Conv(16), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
+    Run 6: 1x1Conv(16), Enc(32), Enc(64), Enc(128), Enc(256), 1x1 Conv(512), Dec(256), Dec(128), Dec(64), Dec(32)
 
+**Hyperparameters: Same as Run 5 and 6 but changed the number of filters on the first 1x1conv layer to 32
 
+    Run 7: 1x1Conv(32), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
+    Run 8: 1x1Conv(32), Enc(32), Enc(64), Enc(128), Enc(256), 1x1 Conv(512), Dec(256), Dec(128), Dec(64), Dec(32)
 
-<strong>Model Results</strong>
+**Hyperparameters: Same as Run 7 but changed Epochs to 50
+
+    Run 9: 1x1Conv(32), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
+
+**Model Results
 
 Run | Epochs |  LR   | Batch | Steps/Epoch | Runtime | Weight | IOU   | Score
 --- | :----: | :---: | :---: | :---------: | :-----: | :----: | :---: | :---:
