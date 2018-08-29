@@ -33,6 +33,7 @@ I tried various combinations fo FCNs and hyperparameters to achieve the required
     d2: decoder layer2, 64 filters, skip connection to e1
     d3: decoder layer3, 128 filters, skip connection to e2
     c2: 1x1 convolutional layer, 256 filters
+    
     e3: encoder layer3, 128 filters
     e2: encoder layer2, 64 filters
     e1: encoder layer1, 32 filters
@@ -65,25 +66,35 @@ There are three different predictions available from the helper code provided:
     weight | 0.7604994324631101
     final_iou | 0.5452292991525213
     final_score | 0.4146465725677517
-    
-<strong>Modified DH Parameter Table</strong>
-
-i | epochs | lr | parameters | time | weight | iou | score
---- | --- | --- | --- | ---
-1 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
-2 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
-3 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
-
-Run | Epochs | LR | parameters | time | weight | iou | score
---- | --- | --- | --- | --- | --- | --- | ---
-1 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
 
 
+Run 1: 1x1 Conv, Encoder, 1x1 Conv, Decoder
+Run 2: 1x1 Conv, Encoder, Encoder, 1x1 Conv, Decoder, Decoder
+Run 3: 1x1 Conv, Encoder, Encoder, Encoder, 1x1 Conv, Decoder, Decoder
+Run 4: 1x1 Conv, Encoder, Encoder, Encoder, 1x1 Conv, Decoder, Decoder, Decoder
+
+Run 5: 1x1 Conv, Encoder, Encoder, Encoder, 1x1 Conv, Decoder, Decoder
+Run 6: 1x1 Conv, Encoder, Encoder, Encoder, 1x1 Conv, Decoder, Decoder, Decoder
+
+Run 7: 1x1 Conv, Encoder, Encoder, Encoder, 1x1 Conv, Decoder, Decoder
+Run 8: 1x1 Conv, Encoder, Encoder, Encoder, 1x1 Conv, Decoder, Decoder, Decoder
+
+<strong>Model Results</strong>
+
+Run | Epochs |  LR   | Batch Size | Steps/Epoch | Runtime | Weight | IOU  | Score
+--- | ------ | ----- | ---------- | ----------- | ------- | ------ | ---- | -----
+1   | 20     | 0.005 | 32         | 138         | 12m15s  | 0.70   | 0.27 | 0.19
+2   | 20     | 0.005 | 32         | 138         | 0.70    | 0.40   | 0.18 |
+3   | 20     | 0.005 | 32         | 138         | 0.70    | 0.40   | 0.18 |
+4   | 20     | 0.005 | 32         | 138         | 0.70    | 0.40   | 0.18 |
+5   | 20     | 0.005 | 32         | 200         | 0.70    | 0.40   | 0.18 |
+6   | 20     | 0.005 | 32         | 200         | 0.70    | 0.40   | 0.18 |
+7   | 20     | 0.005 | 32         | 200         | 0.70    | 0.40   | 0.18 |
+8   | 20     | 0.005 | 32         | 200         | 0.70    | 0.40   | 0.18 |
 
 
 
-*Still* | `renders` | **nicely**
-1 | 2 | 3
+
 
 ### Future Enhancements
 ---
