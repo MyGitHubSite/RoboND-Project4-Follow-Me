@@ -64,13 +64,13 @@ There are three different predictions available from the helper code provided:
     final_iou | 0.5452292991525213
     final_score | 0.4146465725677517
     
-    <strong>Modified DH Parameter Table</strong>
+<strong>Modified DH Parameter Table</strong>
 
-    **i** | **epochs** | **lr** | **parameters** | **time** | **weight** | **iou** | **score**
-    :--: | :-----: | :-: | :-: | :-----:
-    1 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
-    2 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
-    3 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
+**i** | **epochs** | **lr** | **parameters** | **time** | **weight** | **iou** | **score**
+:--: | :-----: | :-: | :-: | :-----:
+1 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
+2 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
+3 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
 
 ### Future Enhancements
 ---
