@@ -18,14 +18,21 @@ Environment.yml
 pip uninstall tensorflow  
 pip install tensorflow-gpu==1.3.0
 
-### What are we trying to do
+### What are we trying to do in this project
 ---
+We are trying to locate a target in a picture and determine where in the picture the target is located.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
 
-Would not work for cats, dogs, etc..
-
+An FCN can extract features with different levels of complexity and segment them into separate categories. In this project we are interested in segmenting into: 1) the target, 2) other people, and 3) the background.
 
 ### Network
 ---
+An FCN consists of three sections: 
+
+    1) an encoder section: extracts features from the image.
+    2) a 1x1 convolution layer: helps to reduce the dimensionality of a layer without losing information about pixel locations
+    3) a decoder section: upscales the output from the encoder back to the same size as origional image.
+
+
 
 Output
 Decoder
@@ -66,11 +73,11 @@ There are three different predictions available from the helper code provided:
     
 <strong>Modified DH Parameter Table</strong>
 
-**i** | **epochs** | **lr** | **parameters** | **time** | **weight** | **iou** | **score**  
-:--: | :-----: | :-: | :-: | :-----:  
-1 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18  
-2 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18  
-3 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18  
+| **i** | **epochs** | **lr** | **parameters** | **time** | **weight** | **iou** | **score** |
+| :--: | :-----: | :-: | :-: | :-----: |
+| 1 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18 |
+| 2 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18 |
+| 3 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18 |
 
 ### Future Enhancements
 ---
