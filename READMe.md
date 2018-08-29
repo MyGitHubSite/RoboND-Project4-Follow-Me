@@ -87,7 +87,7 @@ Run   | Epochs |  LR   | Batch | Steps/Epoch | Runtime | Weight | IOU   | Score 
 6     | 20     | 0.005 | 32    | 200         | 28m40s  | 0.67   | 0.53  | 0.36  | [Run6](/pdfs/Run6.pdf)
 7     | 20     | 0.005 | 32    | 200         | 27m37s  | 0.77   | 0.59  | 0.46  | [Run7](/pdfs/Run7.pdf)
 8     | 20     | 0.005 | 32    | 200         | 28m50s  | 0.76   | 0.52  | 0.397 | [Run8](/pdfs/Run8.pdf)
-9     | 50     | 0.005 | 32    | 200         | ms  | 0.   | 0. | 0.  | [Run9](/pdfs/Run9.pdf)
+9     | 50     | 0.005 | 32    | 200         | 70m23s  | 0.78   | 0.60  | 0.47  | [Run9](/pdfs/Run9.pdf)
 
 ### Future Enhancements
 ---
