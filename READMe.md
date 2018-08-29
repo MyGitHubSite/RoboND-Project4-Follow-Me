@@ -66,11 +66,11 @@ There are three different predictions available from the helper code provided:
     
     <strong>Modified DH Parameter Table</strong>
 
-**i** | **epochs** | **lr** | **parameters** | **time** | **weight** | **iou** | **score**
-:--: | :-----: | :-: | :-: | :-----:
-1 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
-2 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
-3 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
+    **i** | **epochs** | **lr** | **parameters** | **time** | **weight** | **iou** | **score**
+    :--: | :-----: | :-: | :-: | :-----:
+    1 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
+    2 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
+    3 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
 
 ### Future Enhancements
 ---
