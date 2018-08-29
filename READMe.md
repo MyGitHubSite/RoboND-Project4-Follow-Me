@@ -4,9 +4,8 @@
 ### Hardware Setup: local machine
 Intel CPU
 2 Nvidia 980Ti GTX
-Samsung 950 M.2
-1 Samsung 2TB SSD
-4 Western Digital 4TB Hard Drivews
+Samsung 950 M.2 (OS)
+1 Samsung 2TB SSD (Data)
 
 ### Software Setup
 Windows 10, CUDA 8.0, Cudnn 7.12
@@ -74,6 +73,11 @@ i | epochs | lr | parameters | time | weight | iou | score
 1 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
 2 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
 3 | 20 | 0.005 | 100000 | 15min | 0.70 | 0.40 | 0.18
+
+Markdown | Less | Pretty
+--- | --- | ---
+*Still* | `renders` | **nicely**
+1 | 2 | 3
 
 ### Future Enhancements
 ---
