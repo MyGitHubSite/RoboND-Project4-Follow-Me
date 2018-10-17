@@ -14,31 +14,49 @@ used environment.yml from repo but replaced tensorflow with tensorflow-gpu
 
 ### What are we trying to do in this project
 ---
-We are trying to locate a target in a picture and determine where in the picture the target is located.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
+We are trying to locate a target ("what") in a picture and determine "where"  in the picture the target is located.  
+A typical classification model only needs to understand what is in an image and does not retain pixel spatial information.  However, in order to understand where an object class resides in an image we need keep the spatial information for each pixel and assign the pixels to each class.
+
+For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
 
 An FCN can extract features with different levels of complexity and segment them into separate categories. In this project we are interested in segmenting into: 1) the target, 2) other people, and 3) the background.
 
+We are try to predict 3 classes: 1) the target, 2) other people, and 3) the background
+
 ### Network
 ---
-An FCN consists of three sections: 
+A Fully Convolutional Network (FCN) consists of three sections: 
 
-    1) an encoder section: extracts features from the image.
-    2) a 1x1 convolution layer: helps to reduce the dimensionality of a layer without losing information about pixel locations
-    3) a decoder section: upscales the output from the encoder back to the same size as origional image.
+    1) Encoders: a downsampling path which captures contextual inforamation, but loses spatial information.
+    2) 1x1 Convolution Layer: helps to reduce the dimensionality of a layer without losing information about pixel locations.
+    3) Decoders: an upsampling path which recovers lost spatial inforamtion and restores the image to it's original size.
+        - Skip connections from the downsampling path helps to combine the contextual information with spatial information.
+          upsampling doesn’t recover all the spatial information
+
+Encoders:
+    SeparableConv2DKeras(filters=filters, kernel_size=3, strides=strides, padding='same', activation='relu')(input_layer)
+    BatchNormalization allows the network to learn fast. In addition, it limit big changes in the activation functions inside the network, i.e., there is a more smooth and solid learning in the hidden layers. 
+    Max Pooling
+Decoders:
+    BilinearUpSampling2D((2, 2)
+    Bilinear upsampling is a resampling technique that utilizes the weighted average of four nearest known pixels, located diagonally to a given pixel, to estimate a new pixel intensity value. The weighted average is usually distance dependent.
+
+
+
 
 I tried various combinations fo FCNs and hyperparameters to achieve the required final score > 0.40.  My final chosen FCN consisted of:
 
-    output layer
-    d1: decoder layer1, 32 filters, skip connection to c1
-    d2: decoder layer2, 64 filters, skip connection to e1
-    d3: decoder layer3, 128 filters, skip connection to e2
-    c2: 1x1 convolutional layer, 256 filters
-    
-    e3: encoder layer3, 128 filters
-    e2: encoder layer2, 64 filters
-    e1: encoder layer1, 32 filters
-    c1: 1x1 convolutional layer, 32 filters
-    Input
+    Inputs (160 x 160 x 3)
+    Encoder Layer 1, 32 Filters
+    Encoder Layer 2, 64 Filters
+    Encoder Layer 3, 128 Filters
+    1x1 convolutional Layer, 256 Filters
+    Decoder Layer 3, 128 Filters, Skip Connection from Encoder Layer 2
+    Decoder Layer 2, 64 Filters, Skip Connection from Encoder Layer 1    
+    Decoder Layer 1, 32 Filters, Skip Connection from C1
+    Output Layer
+
+
 
 A table summarizing my results with varisous FCN and hyperparameters is shown results below.
 
