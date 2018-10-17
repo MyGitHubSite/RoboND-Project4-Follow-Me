@@ -41,7 +41,7 @@ Decoders:
     BilinearUpSampling2D((2, 2)  
     Bilinear upsampling is a resampling technique that utilizes the weighted average of four nearest known pixels, located diagonally to a given pixel, to estimate a new pixel intensity value. The weighted average is usually distance dependent.  
 
-Separable Convolutional 2D with Batch Normalizxation
+**Separable Convolutional 2D with Batch Normalizxation**
 
     def separable_conv2d_batchnorm(input_layer, filters, strides=1):
         output_layer = SeparableConv2DKeras(filters=filters, kernel_size=3, strides=strides,
@@ -50,7 +50,7 @@ Separable Convolutional 2D with Batch Normalizxation
         # output_layer = MaxPool2D(pool_size=(2, 2))(output_layer)
         return output_layer  
 
-Convolutional 2D with Batch Normalization
+**Convolutional 2D with Batch Normalization**
 
     def conv2d_batchnorm(input_layer, filters, kernel_size=3, strides=1):
         output_layer = layers.Conv2D(filters=filters, kernel_size=kernel_size, strides=strides,
@@ -59,19 +59,19 @@ Convolutional 2D with Batch Normalization
         # output_layer = layers.Dropout(0.4)(output_layer)
         return output_layer  
 
-Bilinear Upsampling
+**Bilinear Upsampling**
 
     def bilinear_upsample(input_layer):
         output_layer = BilinearUpSampling2D((2, 2))(input_layer)
         return output_layer  
 
-Encoder Block
+**Encoder Block**
 
     def encoder_block(input_layer, filters, strides):
         output_layer = separable_conv2d_batchnorm(input_layer, filters=filters, strides=strides)
         return output_layer  
 
-Decoder Block
+**Decoder Block**
 
     def decoder_block(small_ip_layer, large_ip_layer, filters):
         upsample = bilinear_upsample(small_ip_layer)
