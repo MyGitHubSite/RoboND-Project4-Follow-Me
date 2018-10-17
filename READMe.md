@@ -41,8 +41,34 @@ Decoders:
     BilinearUpSampling2D((2, 2)
     Bilinear upsampling is a resampling technique that utilizes the weighted average of four nearest known pixels, located diagonally to a given pixel, to estimate a new pixel intensity value. The weighted average is usually distance dependent.
 
+    def separable_conv2d_batchnorm(input_layer, filters, strides=1):
+        output_layer = SeparableConv2DKeras(filters=filters, kernel_size=3, strides=strides,
+                                            padding='same', activation='relu')(input_layer)
+        output_layer = layers.BatchNormalization()(output_layer)
+        # output_layer = MaxPool2D(pool_size=(2, 2))(output_layer)
+        return output_layer  
 
+    def conv2d_batchnorm(input_layer, filters, kernel_size=3, strides=1):
+        output_layer = layers.Conv2D(filters=filters, kernel_size=kernel_size, strides=strides,
+                                     padding='same', activation='relu')(input_layer)
+        output_layer = layers.BatchNormalization()(output_layer)
+        # output_layer = layers.Dropout(0.4)(output_layer)
+        return output_layer  
 
+    def bilinear_upsample(input_layer):
+        output_layer = BilinearUpSampling2D((2, 2))(input_layer)
+        return output_layer  
+
+    def encoder_block(input_layer, filters, strides):
+        output_layer = separable_conv2d_batchnorm(input_layer, filters=filters, strides=strides)
+        return output_layer  
+
+    def decoder_block(small_ip_layer, large_ip_layer, filters):
+        upsample = bilinear_upsample(small_ip_layer)
+        concat = layers.concatenate([upsample, large_ip_layer])
+        c1 = separable_conv2d_batchnorm(concat, filters=filters, strides=1)
+        output_layer = c1
+        return output_layer  
 
 I tried various combinations fo FCNs and hyperparameters to achieve the required final score > 0.40.  My final chosen FCN consisted of:
 
