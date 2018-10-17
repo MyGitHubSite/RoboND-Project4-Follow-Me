@@ -27,19 +27,21 @@ We are try to predict 3 classes: 1) the target, 2) other people, and 3) the back
 ---
 A Fully Convolutional Network (FCN) consists of three sections: 
 
-    1) Encoders: a downsampling path which captures contextual inforamation, but loses spatial information.
-    2) 1x1 Convolution Layer: helps to reduce the dimensionality of a layer without losing information about pixel locations.
-    3) Decoders: an upsampling path which recovers lost spatial inforamtion and restores the image to it's original size.
-        - Skip connections from the downsampling path helps to combine the contextual information with spatial information.
-          upsampling doesn’t recover all the spatial information
+    1) Encoders: a downsampling path which captures contextual inforamation, but loses spatial information.  
+    2) 1x1 Convolution Layer: helps to reduce the dimensionality of a layer without losing information about pixel locations.  
+    3) Decoders: an upsampling path which recovers lost spatial inforamtion and restores the image to it's original size.  
+        - Skip connections from the downsampling path helps to combine the contextual information with spatial information.  
+          upsampling doesn’t recover all the spatial information  
 
 Encoders:
-    SeparableConv2DKeras(filters=filters, kernel_size=3, strides=strides, padding='same', activation='relu')(input_layer)
+    SeparableConv2DKeras(filters=filters, kernel_size=3, strides=strides, padding='same', activation='relu')(input_layer)  
     BatchNormalization allows the network to learn fast. In addition, it limit big changes in the activation functions inside the network, i.e., there is a more smooth and solid learning in the hidden layers. 
-    Max Pooling
-Decoders:
-    BilinearUpSampling2D((2, 2)
-    Bilinear upsampling is a resampling technique that utilizes the weighted average of four nearest known pixels, located diagonally to a given pixel, to estimate a new pixel intensity value. The weighted average is usually distance dependent.
+
+Decoders:  
+    BilinearUpSampling2D((2, 2)  
+    Bilinear upsampling is a resampling technique that utilizes the weighted average of four nearest known pixels, located diagonally to a given pixel, to estimate a new pixel intensity value. The weighted average is usually distance dependent.  
+
+Separable Convolutional 2D with Batch Normalizxation
 
     def separable_conv2d_batchnorm(input_layer, filters, strides=1):
         output_layer = SeparableConv2DKeras(filters=filters, kernel_size=3, strides=strides,
@@ -48,6 +50,8 @@ Decoders:
         # output_layer = MaxPool2D(pool_size=(2, 2))(output_layer)
         return output_layer  
 
+Convolutional 2D with Batch Normalization
+
     def conv2d_batchnorm(input_layer, filters, kernel_size=3, strides=1):
         output_layer = layers.Conv2D(filters=filters, kernel_size=kernel_size, strides=strides,
                                      padding='same', activation='relu')(input_layer)
@@ -55,13 +59,19 @@ Decoders:
         # output_layer = layers.Dropout(0.4)(output_layer)
         return output_layer  
 
+Bilinear Upsampling
+
     def bilinear_upsample(input_layer):
         output_layer = BilinearUpSampling2D((2, 2))(input_layer)
         return output_layer  
 
+Encoder Block
+
     def encoder_block(input_layer, filters, strides):
         output_layer = separable_conv2d_batchnorm(input_layer, filters=filters, strides=strides)
         return output_layer  
+
+Decoder Block
 
     def decoder_block(small_ip_layer, large_ip_layer, filters):
         upsample = bilinear_upsample(small_ip_layer)
