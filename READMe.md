@@ -1,7 +1,7 @@
 # Udacity RoboND - Project 4: Deep Learning - Follow Me
 ---
 
-### What are we trying to do in this project
+### What are we trying to do in this project?
 ---
 We are trying to locate a target ("what") in a picture and determine "where"  in the picture the target is located.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
 
@@ -12,9 +12,9 @@ An FCN can extract features with different levels of complexity and segment them
   1) the "target" person  
   2) other people  
   3) the background  
-
-### Network
 ---
+### Network  
+
 A Fully Convolutional Network (FCN) consists of three sections: 
 
     Encoders: 
@@ -37,7 +37,7 @@ The single encoder block (layer) consists of a Separable Convolutional 2D Layer 
 
 Each encoder layer allows the model to gain a better understanding of the shapes in the image at the expense of losing spatial information.
 
-**Separable Convolutional 2D with Batch Normalizxation**
+Separable Convolutional 2D with Batch Normalizxation
 
 Separable convolution layers are a convolution technique for increasing model performance by reducing the number of parameters in each convolution. This is achieved by performing a spatial convolution while keeping the channels separate, followed with a depthwise convolution. Instead of traversing the each input channel by each output channel and kernel, separable convolutions traverse the input channels with only the kernel, then traverse each of those feature maps with a 1x1 convolution for each output layer, before adding the two together. This technique allows for the efficient use of parameters.
 
@@ -49,7 +49,7 @@ Separable convolution layers are a convolution technique for increasing model pe
 
 Batch normalization allows the network to more quickly by limiting big changes in the activation functions inside the network.
 
-**Convolutional 2D with Batch Normalization**
+Convolutional 2D with Batch Normalization
 
 With a 1x1 convolution layer, the data is flattened while still retaining spatial information from the encoder. An additional benefit of 1x1 convolutions is that they are an efficient approach for adding extra depth to the model.
 
@@ -72,7 +72,7 @@ The decoder block is comprised of three parts:
         output_layer = c1
         return output_layer  
 
-**Bilinear Upsampling**
+Bilinear Upsampling
 
 Bilinear upsampling uses the weighted average of the four nearest known pixels from the given pixel, estimating the new pixel intensity value. Although bilinear upsampling loses some finer details when compared to transposed convolutions, it has much better performance, which is important for training large models quickly.
 
@@ -82,16 +82,24 @@ Bilinear upsampling uses the weighted average of the four nearest known pixels f
 
 The decoder block calculates the separable convolution layer of the concatenated bilinear upsample of the smaller input layer with the larger input layer. This structure mimics the use of skip connections by having the larger decoder block input layer act as the skip connection.  Skip connections allow the network to retain spatial information from prior layers that were lost in subsequent convolution layers. Skip layers use the output of one layer as the input to another layer. By using information from multiple image sizes, the model is able to make more precise segmentation decisions.
 
-Each decoder layer is able to reconstruct a little bit more spatial resolution from the layer before it. The final decoder layer will output a layer the same size as the original model input image, which will be used for guiding the quad.
+    def decoder_block(small_ip_layer, large_ip_layer, filters):
+        upsample = bilinear_upsample(small_ip_layer)
+        concat = layers.concatenate([upsample, large_ip_layer])
+        c1 = separable_conv2d_batchnorm(concat, filters=filters, strides=1)
+        output_layer = c1
+        return output_layer
+    
+Each decoder layer is able to reconstruct a little bit more spatial resolution from the layer before it. The final decoder layer will output a layer the same size as the original model input image, which will be used for guiding the quadcopter.
 ---
-### Model Evalution
----
+### Model Evaluation
+
 **Scoring:**  
 
 To evaluate how well the model has performed the metric Intersection over Union (IoU) is calculated.  IoU measures how much (in number of pixels) the ground truth image overlaps with the segmented image from the FCN model.  
 
     Intersection over Union (IoU) = Area of Overlap / Area of Union    
-
+---
+### Model Output  
 
 I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  
 
