@@ -72,6 +72,11 @@ Each encoder layer allows the model to gain a better understanding of the shapes
 
 **Decoder Block**
 
+The decoder block is comprised of three parts:
+- A bilinear upsampling layer using the upsample_bilinear() function. The current recommended factor for upsampling is set to 2.
+- A layer concatenation step. This step is similar to skip connections. You will concatenate the upsampled small_ip_layer and the large_ip_layer.
+- Some (one or two) additional separable convolution layers to extract some more spatial information from prior layers.
+
 The decoder section of the model can either be composed of transposed convolution layers or bilinear upsampling layers.
 The transposed convolution layers reverse the regular convolution layers, multiplying each pixel of the input with the kernel.
 Bilinear upsampling uses the weighted average of the four nearest known pixels from the given pixel, estimating the new pixel intensity value. Although bilinear upsampling loses some finer details when compared to transposed convolutions, it has much better performance, which is important for training large models quickly.
@@ -88,6 +93,13 @@ Skip connections allow the network to retain information from prior layers that 
         c1 = separable_conv2d_batchnorm(concat, filters=filters, strides=1)
         output_layer = c1
         return output_layer  
+
+**Scoring:**  
+
+To evaluate how well the model has performed the metric Intersection over Union (IoU) is calculated.  IoU measures how much (in number of pixels) the ground truth image overlaps with the segmented image from the FCN model.  
+
+    Intersection over Union (IoU) = Area of Overlap / Area of Union    
+
 
 I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  
 
