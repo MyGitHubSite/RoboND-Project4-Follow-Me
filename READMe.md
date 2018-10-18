@@ -1,6 +1,6 @@
 # Udacity RoboND - Project 4: Deep Learning - Follow Me
 
-### What are we trying to do in this project?
+### Intro: What are we trying to do in this project?
 ---
 We are trying to locate a target ("what") in an image and determine "where" in the image the target is located.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
 
@@ -12,7 +12,7 @@ An FCN can extract features with different levels of complexity and segment them
   2) other people  
   3) the background  
 ---
-### Fully Convolutional Network  
+### A: Fully Convolutional Network Defined   
 ---
 A Fully Convolutional Network (FCN) consists of three sections: 
 
@@ -46,7 +46,7 @@ Separable convolution layers are a convolution technique for increasing model pe
         output_layer = layers.BatchNormalization()(output_layer) 
         return 
 
-Batch normalization allows the network to more quickly by limiting big changes in the activation functions inside the network.
+Batch normalization allows the network to learn more quickly by limiting big changes in the activation functions inside the network.
 
 **Convolutional 2D with Batch Normalization**
 
@@ -60,7 +60,7 @@ With a 1x1 convolution layer, the data is flattened while still retaining spatia
 
 The decoder block is comprised of three parts:  
 
-1) A bilinear upsampling layer using the upsample_bilinear() function. The current recommended factor for upsampling is set to 2.   
+1) A bilinear upsampling layer.  
 2) A layer to concatenate the upsampled small_ip_layer and the large_ip_layer.   
 3) Some (one or two) additional separable convolution layers to extract some more spatial information from prior layers.   
 
@@ -72,6 +72,8 @@ The decoder block calculates the separable convolution layer of the concatenated
         output_layer = separable_conv2d_batchnorm(concat, filters=filters, strides=1)
         return output_layer  
 
+Each decoder layer is able to reconstruct a little bit more spatial resolution from the layer before it. The final decoder layer will output a layer the same size as the original model input image, which will be used for guiding the quadcopter.
+
 **Bilinear Upsampling**
 
 Bilinear upsampling uses the weighted average of the four nearest known pixels from the given pixel, estimating the new pixel intensity value. Although bilinear upsampling loses some finer details when compared to transposed convolutions, it has much better performance, which is important for training large models quickly.
@@ -80,9 +82,8 @@ Bilinear upsampling uses the weighted average of the four nearest known pixels f
         output_layer = BilinearUpSampling2D((2, 2))(input_layer)
         return output_layer  
 
-Each decoder layer is able to reconstruct a little bit more spatial resolution from the layer before it. The final decoder layer will output a layer the same size as the original model input image, which will be used for guiding the quadcopter.
 ---
-### Model Evaluation
+### B: Model Evaluation
 ---
 **Scoring:**  
 
@@ -90,7 +91,7 @@ To evaluate how well the model has performed the metric Intersection over Union 
 
     Intersection over Union (IoU) = Area of Overlap / Area of Union    
 ---
-### Model Output  
+### c: Model Output  
 ---
 I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  
 
@@ -173,7 +174,7 @@ My final chosen FCN consisted of:
     Decoder Layer 1, 32 Filters, Skip Connection from Inputs
     Output Layer
 
-### Future Enhancements
+### D: Future Enhancements  
 ---
     1 Collect more data
     2 Pooling layers, dropout
