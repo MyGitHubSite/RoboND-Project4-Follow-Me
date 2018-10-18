@@ -3,89 +3,67 @@
 
 ### What are we trying to do in this project
 ---
-We are trying to locate a target ("what") in a picture and determine "where"  in the picture the target is located.  
+We are trying to locate a target ("what") in a picture and determine "where"  in the picture the target is located.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
+
 A typical classification model only needs to understand what is in an image and does not retain pixel spatial information.  However, in order to understand where an object class resides in an image we need keep the spatial information for each pixel and assign the pixels to each class.
 
-For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
+An FCN can extract features with different levels of complexity and segment them into separate categories. In this project we are interested in segmenting the pixels into three classses: 
 
-An FCN can extract features with different levels of complexity and segment them into separate categories. In this project we are interested in segmenting into: 1) the target, 2) other people, and 3) the background.
-
-We are try to predict 3 classes: 1) the target, 2) other people, and 3) the background
+  1) the "target" person  
+  2) other people  
+  3) the background  
 
 ### Network
 ---
 A Fully Convolutional Network (FCN) consists of three sections: 
 
-    1) Encoders: a downsampling path which captures contextual inforamation, but loses spatial information.  
-    2) 1x1 Convolution Layer: helps to reduce the dimensionality of a layer without losing information about pixel locations.  
-    3) Decoders: an upsampling path which recovers lost spatial inforamtion and restores the image to it's original size.  
-        - Skip connections from the downsampling path helps to combine the contextual information with spatial information.  
-          upsampling doesn’t recover all the spatial information  
+    Encoders: 
+    
+        a downsampling path which captures contextual information, but loses spatial information.  
+        
+    1x1 Convolution Layer: 
+    
+        helps to reduce the dimensionality of a layer without losing information about pixel locations.  
+        
+    Decoders: 
+    
+        an upsampling path which recovers lost spatial inforamtion and restores the image to it's original size.  
 
-Encoders:
-    SeparableConv2DKeras(filters=filters, kernel_size=3, strides=strides, padding='same', activation='relu')(input_layer)  
-    BatchNormalization allows the network to learn fast. In addition, it limit big changes in the activation functions inside the network, i.e., there is a more smooth and solid learning in the hidden layers. 
+The single encoder block (layer) consists of a Separable Convolutional 2D Layer along with Batch Normalization.
 
-Decoders:  
-    BilinearUpSampling2D((2, 2)  
-    Bilinear upsampling is a resampling technique that utilizes the weighted average of four nearest known pixels, located diagonally to a given pixel, to estimate a new pixel intensity value. The weighted average is usually distance dependent.  
+    def encoder_block(input_layer, filters, strides):
+        output_layer = separable_conv2d_batchnorm(input_layer, filters=filters, strides=strides)
+        return output_layer
+
+Each encoder layer allows the model to gain a better understanding of the shapes in the image at the expense of losing spatial information.
 
 **Separable Convolutional 2D with Batch Normalizxation**
 
 Separable convolution layers are a convolution technique for increasing model performance by reducing the number of parameters in each convolution. This is achieved by performing a spatial convolution while keeping the channels separate, followed with a depthwise convolution. Instead of traversing the each input channel by each output channel and kernel, separable convolutions traverse the input channels with only the kernel, then traverse each of those feature maps with a 1x1 convolution for each output layer, before adding the two together. This technique allows for the efficient use of parameters.
 
     def separable_conv2d_batchnorm(input_layer, filters, strides=1):
-        output_layer = SeparableConv2DKeras(filters=filters, kernel_size=3, strides=strides,
+        output_layer = SeparableConv2DKeras(filters=filters,kernel_size=3, strides=strides,
                                             padding='same', activation='relu')(input_layer)
-        output_layer = layers.BatchNormalization()(output_layer)
-        # output_layer = MaxPool2D(pool_size=(2, 2))(output_layer)
-        return output_layer  
+        output_layer = layers.BatchNormalization()(output_layer) 
+        return 
+
+Batch normalization allows the network to more quickly by limiting big changes in the activation functions inside the network.
 
 **Convolutional 2D with Batch Normalization**
 
-a 1x1 convolution layer, the network is able to retain spatial information from the encoder. When using a fully connected layer, the data is flattened, retaining only 2 dimensions of information. Flattening the data like this is useful for classification, however, the model needs to be able to classify each pixel in the image. 1x1 convolution layers allow the network to retain this location information. An additional benefit of 1x1 convolutions is that they are an efficient approach for adding extra depth to the model.
+With a 1x1 convolution layer, the data is flattened while still retaining spatial information from the encoder. An additional benefit of 1x1 convolutions is that they are an efficient approach for adding extra depth to the model.
 
     def conv2d_batchnorm(input_layer, filters, kernel_size=3, strides=1):
         output_layer = layers.Conv2D(filters=filters, kernel_size=kernel_size, strides=strides,
                                      padding='same', activation='relu')(input_layer)
         output_layer = layers.BatchNormalization()(output_layer)
-        # output_layer = layers.Dropout(0.4)(output_layer)
         return output_layer  
 
-**Bilinear Upsampling**
+The decoder block is comprised of three parts:  
 
-Bilinear upsampling uses the weighted average of the four nearest known pixels from the given pixel, estimating the new pixel intensity value. Although bilinear upsampling loses some finer details when compared to transposed convolutions, it has much better performance, which is important for training large models quickly.
-
-
-    def bilinear_upsample(input_layer):
-        output_layer = BilinearUpSampling2D((2, 2))(input_layer)
-        return output_layer  
-
-**Encoder Block**
-
-The encoder section is comprised of one or more encoder blocks, each of which includes a separable convolution layer.
-Each encoder layer allows the model to gain a better understanding of the shapes in the image. For example, the first layer is able to discern very basic characteristics in the image, such as lines, hues and brightness. The next layer is able to identify shapes, such as squares, circles and curves. Each subsequent layer continues to build more insight into the image. However, although each layer is able to gain a better understanding of the image, more layers increase the computation time when training the model.
-
-    def encoder_block(input_layer, filters, strides):
-        output_layer = separable_conv2d_batchnorm(input_layer, filters=filters, strides=strides)
-        return output_layer  
-
-**Decoder Block**
-
-The decoder block is comprised of three parts:
-- A bilinear upsampling layer using the upsample_bilinear() function. The current recommended factor for upsampling is set to 2.
-- A layer concatenation step. This step is similar to skip connections. You will concatenate the upsampled small_ip_layer and the large_ip_layer.
-- Some (one or two) additional separable convolution layers to extract some more spatial information from prior layers.
-
-The decoder section of the model can either be composed of transposed convolution layers or bilinear upsampling layers.
-The transposed convolution layers reverse the regular convolution layers, multiplying each pixel of the input with the kernel.
-Bilinear upsampling uses the weighted average of the four nearest known pixels from the given pixel, estimating the new pixel intensity value. Although bilinear upsampling loses some finer details when compared to transposed convolutions, it has much better performance, which is important for training large models quickly.
-
-The decoder block calculates the separable convolution layer of the concatenated bilinear upsample of the smaller input layer with the larger input layer. This structure mimics the use of skip connections by having the larger decoder block input layer act as the skip connection.
-
-Each decoder layer is able to reconstruct a little bit more spatial resolution from the layer before it. The final decoder layer will output a layer the same size as the original model input image, which will be used for guiding the quad.
-
-Skip connections allow the network to retain information from prior layers that were lost in subsequent convolution layers. Skip layers use the output of one layer as the input to another layer. By using information from multiple image sizes, the model is able to make more precise segmentation decisions.
+1) A bilinear upsampling layer using the upsample_bilinear() function. The current recommended factor for upsampling is set to 2.   
+2) A layer to concatenate the upsampled small_ip_layer and the large_ip_layer.   
+3) Some (one or two) additional separable convolution layers to extract some more spatial information from prior layers.   
 
     def decoder_block(small_ip_layer, large_ip_layer, filters):
         upsample = bilinear_upsample(small_ip_layer)
@@ -94,6 +72,20 @@ Skip connections allow the network to retain information from prior layers that 
         output_layer = c1
         return output_layer  
 
+**Bilinear Upsampling**
+
+Bilinear upsampling uses the weighted average of the four nearest known pixels from the given pixel, estimating the new pixel intensity value. Although bilinear upsampling loses some finer details when compared to transposed convolutions, it has much better performance, which is important for training large models quickly.
+
+    def bilinear_upsample(input_layer):
+        output_layer = BilinearUpSampling2D((2, 2))(input_layer)
+        return output_layer  
+
+The decoder block calculates the separable convolution layer of the concatenated bilinear upsample of the smaller input layer with the larger input layer. This structure mimics the use of skip connections by having the larger decoder block input layer act as the skip connection.  Skip connections allow the network to retain spatial information from prior layers that were lost in subsequent convolution layers. Skip layers use the output of one layer as the input to another layer. By using information from multiple image sizes, the model is able to make more precise segmentation decisions.
+
+Each decoder layer is able to reconstruct a little bit more spatial resolution from the layer before it. The final decoder layer will output a layer the same size as the original model input image, which will be used for guiding the quad.
+---
+### Model Evalution
+---
 **Scoring:**  
 
 To evaluate how well the model has performed the metric Intersection over Union (IoU) is calculated.  IoU measures how much (in number of pixels) the ground truth image overlaps with the segmented image from the FCN model.  
