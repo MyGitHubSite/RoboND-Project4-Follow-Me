@@ -82,17 +82,31 @@ Decoders:
 
 I tried various combinations fo FCNs and hyperparameters to achieve the required final score > 0.40.  My final chosen FCN consisted of:
 
-    Inputs (160 x 160 x 3)
+**Model Results**
+
+Run   | Epochs |  LR   | Batch | Steps/Epoch | Score | PDF
+:---: | :----: | :---: | :---: | :---------: | :---: | ----
+1     | 20     | 0.005 | 32    | 129         | 0.19  | [Run1](/pdfs/Run1.pdf)
+2     | 20     | 0.005 | 32    | 129         | 0.37  | [Run2](/pdfs/Run2.pdf)
+3     | 20     | 0.005 | 32    | 129         | 0.41  | [Run3](/pdfs/Run3.pdf)
+4     | 20     | 0.005 | 32    | 129         | 0.33  | [Run4](/pdfs/Run4.pdf)
+:---: | :----: | :---: | :---: | :---------: | :---: | ----
+5     | 20     | 0.005 | 32    | 158         | 0.42  | [Run5](/pdfs/Run5.pdf)
+6     | 20     | 0.005 | 32    | 158         | 0.36  | [Run6](/pdfs/Run6.pdf)
+7     | 20     | 0.005 | 32    | 158         | 0.46  | [Run7](/pdfs/Run7.pdf)
+8     | 20     | 0.005 | 32    | 158         | 0.397 | [Run8](/pdfs/Run8.pdf)
+:---: | :----: | :---: | :---: | :---------: | :---: | ----
+
+
+    Inputs (160x16x3 Images)
     Encoder Layer 1, 32 Filters
     Encoder Layer 2, 64 Filters
     Encoder Layer 3, 128 Filters
     1x1 convolutional Layer, 256 Filters
     Decoder Layer 3, 128 Filters, Skip Connection from Encoder Layer 2
     Decoder Layer 2, 64 Filters, Skip Connection from Encoder Layer 1    
-    Decoder Layer 1, 32 Filters, Skip Connection from C1
+    Decoder Layer 1, 32 Filters, Skip Connection from Inputs
     Output Layer
-
-
 
 A table summarizing my results with varisous FCN and hyperparameters is shown results below.
 
@@ -129,19 +143,6 @@ workers = 8             # 4
 
     Run 9: 1x1Conv(32), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
 
-**Model Results**
-
-Run   | Epochs |  LR   | Batch | Steps/Epoch | Runtime | Weight | IOU   | Score | PDF
-:---: | :----: | :---: | :---: | :---------: | :-----: | :----: | :---: | :---: | ----
-1     | 20     | 0.005 | 32    | 138         | 12m15s  | 0.70   | 0.27  | 0.19  | [Run1](/pdfs/Run1.pdf)
-2     | 20     | 0.005 | 32    | 138         | 15m20s  | 0.72   | 0.52  | 0.37  | [Run2](/pdfs/Run2.pdf)
-3     | 20     | 0.005 | 32    | 138         | 16m45s  | 0.75   | 0.56  | 0.41  | [Run3](/pdfs/Run3.pdf)
-4     | 20     | 0.005 | 32    | 138         | 17m41s  | 0.68   | 0.48  | 0.33  | [Run4](/pdfs/Run4.pdf)
-5     | 20     | 0.005 | 32    | 200         | 25m18s  | 0.76   | 0.56  | 0.42  | [Run5](/pdfs/Run5.pdf)
-6     | 20     | 0.005 | 32    | 200         | 28m40s  | 0.67   | 0.53  | 0.36  | [Run6](/pdfs/Run6.pdf)
-7     | 20     | 0.005 | 32    | 200         | 27m37s  | 0.77   | 0.59  | 0.46  | [Run7](/pdfs/Run7.pdf)
-8     | 20     | 0.005 | 32    | 200         | 28m50s  | 0.76   | 0.52  | 0.397 | [Run8](/pdfs/Run8.pdf)
-9     | 50     | 0.005 | 32    | 200         | 70m23s  | 0.78   | 0.60  | 0.47  | [Run9](/pdfs/Run9.pdf)
 
 ### Future Enhancements
 ---
