@@ -159,6 +159,7 @@ workers = 2
 
 **Using Original + Flipped Training and Validation Images**  
 
+Model | Epochs |  LR   | Batch | Steps/Epoch | Score  |  
 :---: | :----: | :---: | :---: | :---------: | :---:  |  
 1     | 20     | 0.005 | 32    | 258         | 0.226  |  
 2     | 20     | 0.005 | 32    | 258         | 0.366  |  
@@ -180,7 +181,6 @@ My final chosen FCN consisted of:
     Decoder Layer 2, 64 Filters, Skip Connection from Encoder Layer 1    
     Decoder Layer 1, 32 Filters, Skip Connection from Inputs
     Output Layer
-
 
 
 ### Future Enhancements
