@@ -43,6 +43,7 @@ Decoders:
 
 **Separable Convolutional 2D with Batch Normalizxation**
 
+
     def separable_conv2d_batchnorm(input_layer, filters, strides=1):
         output_layer = SeparableConv2DKeras(filters=filters, kernel_size=3, strides=strides,
                                             padding='same', activation='relu')(input_layer)
@@ -80,23 +81,74 @@ Decoders:
         output_layer = c1
         return output_layer  
 
-I tried various combinations fo FCNs and hyperparameters to achieve the required final score > 0.40.  My final chosen FCN consisted of:
+I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  
+**
+      Model 1        Model 2        Model 3        Model 4         Model 5  
+    ------------   ------------   ------------   -------------   -------------
+    Inputs         Inputs         Inputs         Inputs          Inputs
+    Encoder(32)    Encoder(32)    Encoder(32)    Encoder(32)     Encoder(32)
+    1x1Conv(64)    Encoder(64)    Encoder(64)    Encoder(64)     Encoder(64)
+    Decoder(32)    1x1Conv(128)   Encoder(128)   Encoder(128)    Encoder(128)
+    Outputs        Decoder(64)    1x1Conv(256)   Encoder(256)    Encoder(256)
+                   Decoder(32)    Decoder(128)   1x1Conv(512)    Encoder(512)
+                   Outputs        Decoder(64)    Decoder(256)    1x1Conv(1024)
+                                  Decoder(32)    Decoder(128)    Decoder(512)
+                                  Outputs        Decoder(64)     Decoder(256)
+                                                 Decoder(32)     Decoder(128)
+                                                 Outputs         Decoder(64)
+                                                                 Decoder(32)
+                                                                 Outputs
+    ------------   ------------   ------------   -------------   -------------                                                               Note: Number of filters in ()
 
-**Model Results**
+For my model runs I used the original training and validation data.  The hyperparameters and model results for each run were:
 
-Run   | Epochs |  LR   | Batch | Steps/Epoch | Score | PDF
-:---: | :----: | :---: | :---: | :---------: | :---: | ----
-1     | 20     | 0.005 | 32    | 129         | 0.19  | [Run1](/pdfs/Run1.pdf)
-2     | 20     | 0.005 | 32    | 129         | 0.37  | [Run2](/pdfs/Run2.pdf)
-3     | 20     | 0.005 | 32    | 129         | 0.41  | [Run3](/pdfs/Run3.pdf)
-4     | 20     | 0.005 | 32    | 129         | 0.33  | [Run4](/pdfs/Run4.pdf)
-:---: | :----: | :---: | :---: | :---------: | :---: | ----
-5     | 20     | 0.005 | 32    | 158         | 0.42  | [Run5](/pdfs/Run5.pdf)
-6     | 20     | 0.005 | 32    | 158         | 0.36  | [Run6](/pdfs/Run6.pdf)
-7     | 20     | 0.005 | 32    | 158         | 0.46  | [Run7](/pdfs/Run7.pdf)
-8     | 20     | 0.005 | 32    | 158         | 0.397 | [Run8](/pdfs/Run8.pdf)
-:---: | :----: | :---: | :---: | :---------: | :---: | ----
+### Hyperparameters
+---
+learning_rate = 0.005   
+batch_size = 32         
+num_epochs = 20         
+steps_per_epoch = 129   # 4131 images // batch_size = 129
+validation_steps = 42   # 1184 images // batch_size = 42
+workers = 2             
 
+**Model Results**                    
+---
+**Using just original Training and Validation Images**
+
+Model | Epochs |  LR   | Batch | Steps/Epoch | Score  | PDF
+:---: | :----: | :---: | :---: | :---------: | :---:  | ----
+1     | 20     | 0.005 | 32    | 129         | 0.202  | [Run1](/pdfs/Run1.pdf)
+2     | 20     | 0.005 | 32    | 129         | 0.360  | [Run2](/pdfs/Run2.pdf)
+3     | 20     | 0.005 | 32    | 129         | 0.399  | [Run3](/pdfs/Run3.pdf)
+4     | 20     | 0.005 | 32    | 129         | 0.381  | [Run4](/pdfs/Run4.pdf)
+5     | 20     | 0.005 | 32    | 129         | 0.393  | [Run5](/pdfs/Run4.pdf)
+
+I did not get to the 0.40 required score with any of these runs but model3 was close.  For my next set of runs I chose to augment the data by flipping each image.  This doubled the number of training and validation images and helped to balance out some biases in the image poses.
+
+I kept the hyperparameters the same except I increased the steps_per_epoch and validation steps to account for twice as many images.
+
+### Hyperparameters
+---
+learning_rate = 0.005   
+batch_size = 32         
+num_epochs = 20         
+steps_per_epoch = 259   # 8262 images // batch_size = 259
+validation_steps = 84   # 2368 images // batch_size = 84
+workers = 2             
+
+**Using Original + Flipped Training and Validation Images**
+
+:---: | :----: | :---: | :---: | :---------: | :---:  | ----
+1     | 20     | 0.005 | 32    | 258         | 0.226  | [Run6](/pdfs/Run5.pdf)
+2     | 20     | 0.005 | 32    | 258         | 0.366  | [Run7](/pdfs/Run6.pdf)
+3     | 20     | 0.005 | 32    | 258         | 0.421  | [Run8](/pdfs/Run7.pdf)
+4     | 20     | 0.005 | 32    | 258         | 0.356  | [Run9](/pdfs/Run8.pdf)
+5     | 20     | 0.005 | 32    | 258         | 0.417  | [Run10](/pdfs/Run8.pdf)
+:---: | :----: | :---: | :---: | :---------: | :---:  | ----
+
+Model 3 again was the best performer and achieved a score of 0.421.
+
+My final chosen FCN consisted of:
 
     Inputs (160x16x3 Images)
     Encoder Layer 1, 32 Filters
@@ -110,38 +162,12 @@ Run   | Epochs |  LR   | Batch | Steps/Epoch | Score | PDF
 
 A table summarizing my results with varisous FCN and hyperparameters is shown results below.
 
-### Hyperparameters
----
-learning_rate = 0.005   # 0.001
-batch_size = 32         # 64
-num_epochs = 20         # 15
-steps_per_epoch = 200   # 4131//batch_size+1    # 1000
-validation_steps = 50   # 1184//batch_size+1   # 50
-workers = 8             # 4
 
 ### Results
 ---
 
 **Hyperparameters: LR=0.005, Batch=32, Epochs=20, Epoch Steps=138**
 
-    Run 1: 1x1Conv(16), Enc(32), 1x1Conv(64), Decoder
-    Run 2: 1x1Conv(16), Enc(32), Enc(64), 1x1Conv(128), Dec(64), Dec(32)
-    Run 3: 1x1Conv(16), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
-    Run 4: 1x1Conv(16), Enc(32), Enc(64), Enc(128), Enc(256), 1x1 Conv(512), Dec(256), Dec(128), Dec(64), Dec(32)
-
-**Hyperparameters: Same as runs 1-4 but changed Epoch Steps to 200**
-
-    Run 5: 1x1Conv(16), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
-    Run 6: 1x1Conv(16), Enc(32), Enc(64), Enc(128), Enc(256), 1x1 Conv(512), Dec(256), Dec(128), Dec(64), Dec(32)
-
-**Hyperparameters: Same as Run 5 and 6 but changed the number of filters on the first 1x1conv layer to 32**
-
-    Run 7: 1x1Conv(32), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
-    Run 8: 1x1Conv(32), Enc(32), Enc(64), Enc(128), Enc(256), 1x1 Conv(512), Dec(256), Dec(128), Dec(64), Dec(32)
-
-**Hyperparameters: Same as Run 7 but changed Epochs to 50**
-
-    Run 9: 1x1Conv(32), Enc(32), Enc(64), Enc(128), 1x1Conv(256), Dec(128), Dec(64), Dec(32)
 
 
 ### Future Enhancements
