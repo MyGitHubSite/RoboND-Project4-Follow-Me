@@ -82,23 +82,24 @@ Decoders:
         return output_layer  
 
 I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  
-**
+
       Model 1        Model 2        Model 3        Model 4         Model 5  
-    ------------   ------------   ------------   -------------   -------------
-    Inputs         Inputs         Inputs         Inputs          Inputs
-    Encoder(32)    Encoder(32)    Encoder(32)    Encoder(32)     Encoder(32)
-    1x1Conv(64)    Encoder(64)    Encoder(64)    Encoder(64)     Encoder(64)
-    Decoder(32)    1x1Conv(128)   Encoder(128)   Encoder(128)    Encoder(128)
-    Outputs        Decoder(64)    1x1Conv(256)   Encoder(256)    Encoder(256)
-                   Decoder(32)    Decoder(128)   1x1Conv(512)    Encoder(512)
-                   Outputs        Decoder(64)    Decoder(256)    1x1Conv(1024)
-                                  Decoder(32)    Decoder(128)    Decoder(512)
-                                  Outputs        Decoder(64)     Decoder(256)
-                                                 Decoder(32)     Decoder(128)
-                                                 Outputs         Decoder(64)
-                                                                 Decoder(32)
-                                                                 Outputs
-    ------------   ------------   ------------   -------------   -------------                                                               Note: Number of filters in ()
+      ------------   ------------   ------------   -------------   -------------
+      Inputs         Inputs         Inputs         Inputs          Inputs
+      Encoder(32)    Encoder(32)    Encoder(32)    Encoder(32)     Encoder(32)
+      1x1Conv(64)    Encoder(64)    Encoder(64)    Encoder(64)     Encoder(64)
+      Decoder(32)    1x1Conv(128)   Encoder(128)   Encoder(128)    Encoder(128)
+      Outputs        Decoder(64)    1x1Conv(256)   Encoder(256)    Encoder(256)
+                     Decoder(32)    Decoder(128)   1x1Conv(512)    Encoder(512)
+                     Outputs        Decoder(64)    Decoder(256)    1x1Conv(1024)
+                                    Decoder(32)    Decoder(128)    Decoder(512)
+                                    Outputs        Decoder(64)     Decoder(256)
+                                                   Decoder(32)     Decoder(128)
+                                                   Outputs         Decoder(64)
+                                                                   Decoder(32)
+                                                                   Outputs
+      ------------   ------------   ------------   -------------   -------------  
+      Note: Number of filters in ()
 
 For my model runs I used the original training and validation data.  The hyperparameters and model results for each run were:
 
@@ -107,21 +108,21 @@ For my model runs I used the original training and validation data.  The hyperpa
 learning_rate = 0.005   
 batch_size = 32         
 num_epochs = 20         
-steps_per_epoch = 129   # 4131 images // batch_size = 129
-validation_steps = 42   # 1184 images // batch_size = 42
+steps_per_epoch = 129   # 4131 images // batch_size = 129  
+validation_steps = 42   # 1184 images // batch_size = 42  
 workers = 2             
 
 **Model Results**                    
 ---
 **Using just original Training and Validation Images**
 
-Model | Epochs |  LR   | Batch | Steps/Epoch | Score  | PDF
-:---: | :----: | :---: | :---: | :---------: | :---:  | ----
-1     | 20     | 0.005 | 32    | 129         | 0.202  | [Run1](/pdfs/Run1.pdf)
-2     | 20     | 0.005 | 32    | 129         | 0.360  | [Run2](/pdfs/Run2.pdf)
-3     | 20     | 0.005 | 32    | 129         | 0.399  | [Run3](/pdfs/Run3.pdf)
-4     | 20     | 0.005 | 32    | 129         | 0.381  | [Run4](/pdfs/Run4.pdf)
-5     | 20     | 0.005 | 32    | 129         | 0.393  | [Run5](/pdfs/Run4.pdf)
+Model | Epochs |  LR   | Batch | Steps/Epoch | Score  | PDF  
+:---: | :----: | :---: | :---: | :---------: | :---:  | ----  
+1     | 20     | 0.005 | 32    | 129         | 0.202  | [Run1](/pdfs/Run1.pdf)  
+2     | 20     | 0.005 | 32    | 129         | 0.360  | [Run2](/pdfs/Run2.pdf)  
+3     | 20     | 0.005 | 32    | 129         | 0.399  | [Run3](/pdfs/Run3.pdf)  
+4     | 20     | 0.005 | 32    | 129         | 0.381  | [Run4](/pdfs/Run4.pdf)  
+5     | 20     | 0.005 | 32    | 129         | 0.393  | [Run5](/pdfs/Run4.pdf)  
 
 I did not get to the 0.40 required score with any of these runs but model3 was close.  For my next set of runs I chose to augment the data by flipping each image.  This doubled the number of training and validation images and helped to balance out some biases in the image poses.
 
@@ -132,23 +133,23 @@ I kept the hyperparameters the same except I increased the steps_per_epoch and v
 learning_rate = 0.005   
 batch_size = 32         
 num_epochs = 20         
-steps_per_epoch = 259   # 8262 images // batch_size = 259
-validation_steps = 84   # 2368 images // batch_size = 84
+steps_per_epoch = 259   # 8262 images // batch_size = 259  
+validation_steps = 84   # 2368 images // batch_size = 84  
 workers = 2             
 
 **Using Original + Flipped Training and Validation Images**
 
-:---: | :----: | :---: | :---: | :---------: | :---:  | ----
-1     | 20     | 0.005 | 32    | 258         | 0.226  | [Run6](/pdfs/Run5.pdf)
-2     | 20     | 0.005 | 32    | 258         | 0.366  | [Run7](/pdfs/Run6.pdf)
-3     | 20     | 0.005 | 32    | 258         | 0.421  | [Run8](/pdfs/Run7.pdf)
-4     | 20     | 0.005 | 32    | 258         | 0.356  | [Run9](/pdfs/Run8.pdf)
-5     | 20     | 0.005 | 32    | 258         | 0.417  | [Run10](/pdfs/Run8.pdf)
+:---: | :----: | :---: | :---: | :---------: | :---:  | ----  
+1     | 20     | 0.005 | 32    | 258         | 0.226  | [Run6](/pdfs/Run5.pdf)  
+2     | 20     | 0.005 | 32    | 258         | 0.366  | [Run7](/pdfs/Run6.pdf)  
+3     | 20     | 0.005 | 32    | 258         | 0.421  | [Run8](/pdfs/Run7.pdf)  
+4     | 20     | 0.005 | 32    | 258         | 0.356  | [Run9](/pdfs/Run8.pdf)  
+5     | 20     | 0.005 | 32    | 258         | 0.417  | [Run10](/pdfs/Run8.pdf)  
 :---: | :----: | :---: | :---: | :---------: | :---:  | ----
 
 Model 3 again was the best performer and achieved a score of 0.421.
 
-My final chosen FCN consisted of:
+My final chosen FCN consisted of:  
 
     Inputs (160x16x3 Images)
     Encoder Layer 1, 32 Filters
