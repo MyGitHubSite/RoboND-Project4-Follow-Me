@@ -2,7 +2,7 @@
 
 ### What are we trying to do in this project?
 ---
-We are trying to locate a target ("what") in a picture and determine "where"  in the picture the target is located.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
+We are trying to locate a target ("what") in an image and determine "where" in the image the target is located.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
 
 A typical classification model only needs to understand what is in an image and does not retain pixel spatial information.  However, in order to understand where an object class resides in an image we need keep the spatial information for each pixel and assign the pixels to each class.
 
@@ -12,7 +12,7 @@ An FCN can extract features with different levels of complexity and segment them
   2) other people  
   3) the background  
 ---
-### Network  
+### Fully Convolutional Network  
 ---
 A Fully Convolutional Network (FCN) consists of three sections: 
 
@@ -64,6 +64,8 @@ The decoder block is comprised of three parts:
 2) A layer to concatenate the upsampled small_ip_layer and the large_ip_layer.   
 3) Some (one or two) additional separable convolution layers to extract some more spatial information from prior layers.   
 
+The decoder block calculates the separable convolution layer of the concatenated bilinear upsample of the smaller input layer with the larger input layer. This structure mimics the use of skip connections by having the larger decoder block input layer act as the skip connection.  Skip connections allow the network to retain spatial information from prior layers that were lost in subsequent convolution layers. Skip layers use the output of one layer as the input to another layer. By using information from multiple image sizes, the model is able to make more precise segmentation decisions
+
     def decoder_block(small_ip_layer, large_ip_layer, filters):
         upsample = bilinear_upsample(small_ip_layer)
         concat = layers.concatenate([upsample, large_ip_layer])
@@ -76,15 +78,6 @@ Bilinear upsampling uses the weighted average of the four nearest known pixels f
 
     def bilinear_upsample(input_layer):
         output_layer = BilinearUpSampling2D((2, 2))(input_layer)
-        return output_layer  
-
-The decoder block calculates the separable convolution layer of the concatenated bilinear upsample of the smaller input layer with the larger input layer. This structure mimics the use of skip connections by having the larger decoder block input layer act as the skip connection.  Skip connections allow the network to retain spatial information from prior layers that were lost in subsequent convolution layers. Skip layers use the output of one layer as the input to another layer. By using information from multiple image sizes, the model is able to make more precise segmentation decisions.
-
-    def decoder_block(small_ip_layer, large_ip_layer, filters):
-        upsample = bilinear_upsample(small_ip_layer)
-        concat = layers.concatenate([upsample, large_ip_layer])
-        c1 = separable_conv2d_batchnorm(concat, filters=filters, strides=1)
-        output_layer = c1
         return output_layer  
 
 Each decoder layer is able to reconstruct a little bit more spatial resolution from the layer before it. The final decoder layer will output a layer the same size as the original model input image, which will be used for guiding the quadcopter.
@@ -179,7 +172,6 @@ My final chosen FCN consisted of:
     Decoder Layer 2, 64 Filters, Skip Connection from Encoder Layer 1    
     Decoder Layer 1, 32 Filters, Skip Connection from Inputs
     Output Layer
-
 
 ### Future Enhancements
 ---
