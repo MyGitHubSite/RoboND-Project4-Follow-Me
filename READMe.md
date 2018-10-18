@@ -1,5 +1,4 @@
 # Udacity RoboND - Project 4: Deep Learning - Follow Me
----
 
 ### What are we trying to do in this project?
 ---
