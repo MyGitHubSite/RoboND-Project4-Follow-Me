@@ -4,7 +4,7 @@ In this project We are trying to locate a target ("what") in an image and determ
 
 An FCN can extract features with different levels of complexity and segment them into separate categories. In this project we are interested in segmenting the pixels into three classses: 
 
-  1) the "target" person  
+  1) the target person ("hero") 
   2) other people  
   3) the background  
 
