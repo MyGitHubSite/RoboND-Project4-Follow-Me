@@ -12,17 +12,9 @@ An FCN can extract features with different levels of complexity and segment them
 ---
 A Fully Convolutional Network (FCN) consists of three sections: 
 
-    Encoders: 
-    
-        a downsampling path which captures contextual information, but loses spatial information.  
-        
-    1x1 Convolution Layer: 
-    
-        helps to reduce the dimensionality of a layer without losing information about pixel locations.  
-        
-    Decoders: 
-    
-        an upsampling path which recovers lost spatial inforamtion and restores the image to it's original size.  
+    Encoders: a downsampling path which captures contextual information, but loses spatial information.  
+    1x1 Convolution Layer: helps to reduce the dimensionality of a layer without losing information about pixel locations.  
+    Decoders: an upsampling path which recovers lost spatial inforamtion and restores the image to it's original size.  
 
 The single encoder block (layer) consists of a separable convolutional 2D layer along with batch normalization.
 
