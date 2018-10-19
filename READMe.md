@@ -197,7 +197,7 @@ Hyperparameters:
     steps_per_epoch = 65   # chosen to be 4131 training images // batch_size
     validation_steps = 16  # chosen to be 1184 validation images // batch_size
 
-![My final model is located here -> ](model_training.ipynb)
+![My final notebook model is located here](model_training.ipynb)
 
 ### D: Future Enhancements  
 ---
