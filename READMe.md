@@ -1,5 +1,5 @@
 # Udacity RoboND - Project 4: Deep Learning - Follow Me
----
+
 In this project We are trying to locate a target ("what") in an image and determine "where" in the image the target is located.  A typical classification model only needs to understand what is in an image and does not retain pixel spatial information.  However, in order to understand where an object class resides in an image we need keep the spatial information for each pixel and assign the pixels to each class.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
 
 An FCN can extract features with different levels of complexity and segment them into separate categories. In this project we are interested in segmenting the pixels into three classses: 
