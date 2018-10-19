@@ -176,6 +176,8 @@ Model | 1 Sep Conv | 2 Sep Conv | 3 Sep Conv |
 More separable convolution layers generally helped with model performance.  As well, deeper layers generally helped as well.
 Model 4 with four encoder and decoder layers and three separable convultion layers in each encoder block had the largest score (0.425) in my runs and was also above the required 0.40 so I chose that as my final model.
 
+Here is a plot of the training and validation curves:
+
 ![Training and Validation curve](./images/Final_Model_Training.JPG)
 
 To summarize final chosen fully convolutional network consisted of:  
