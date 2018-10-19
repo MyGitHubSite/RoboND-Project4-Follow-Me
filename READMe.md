@@ -7,7 +7,7 @@ An FCN can extract features with different levels of complexity and segment them
   1) the "target" person  
   2) other people  
   3) the background  
----
+
 ### A: Fully Convolutional Network Defined   
 ---
 A Fully Convolutional Network (FCN) consists of three sections: 
@@ -78,7 +78,7 @@ Bilinear upsampling uses the weighted average of the four nearest known pixels f
         output_layer = BilinearUpSampling2D((2, 2))(input_layer)
         return output_layer  
 
----
+
 ### B: Model Evaluation
 ---
 **Scoring:**  
@@ -87,7 +87,7 @@ To evaluate how well the model has performed the metric Intersection over Union 
 
     Intersection over Union (IoU) = Area of Overlap / Area of Union    
     
----
+
 ### c: Model Output  
 ---
 I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  
