@@ -2,7 +2,9 @@
 
 In this project we are given images taken from a quadcopter and we are trying to identify a target ("what") in an image and determine "where" in the image the target is located.  To do this we need to build a neural network model.  A typical classification model only needs to understand what is in an image and does not retain pixel spatial information.  However, in order to understand where an object resides in an image we need keep the spatial information for each pixel and assign the pixels to a category or object class.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
 
-A fully convolutional network can extract features with different levels of complexity and segment them into separate categories. In this project we are interested in segmenting the pixels into three classses: 
+A fully convolutional network can extract features with different levels of complexity and segment them into separate categories. 
+
+In this project we are interested in segmenting the pixels into three classses: 
 
   1) the target person ("hero") that we want the quadcopter to identify and follow
   2) other people  
@@ -153,12 +155,9 @@ The hyperparameters and model results for each run were:
     steps_per_epoch = 65   # chosen to be 4131 training images // batch_size
     validation_steps = 16  # chosen to be 1184 validation images // batch_size
 
-All the hyperparamters were determined through brute force, aside from number of steps which were a function of images and batch size.  The trickiest parameters were the learning rate and the number of epochs.  If the learning rate is too high the model can learn too quickly and change it weights too much from epoch to epoch.  If the learning rate is too low the model will learn too slowly and may get stuck for a long time without finding a good solution.  Because the computation time for these models can be quite long I tried to focus on parameters for learning and epochs that would get me to the desired solution in the least amount of time.  
+All the hyperparameters were determined through brute force, aside from number of steps which were a function of images and batch size.  The trickiest parameters were the learning rate and the number of epochs.  If the learning rate is too high the model can learn too quickly and change it weights too much from epoch to epoch.  If the learning rate is too low the model will learn too slowly and may get stuck for a long time without finding a good solution.  Because the computation time for these models can be quite long I tried to focus on parameters for learning and epochs that would get me to the desired solution in the least amount of time.  
 
 Batch size and steps per epoch parameters also had an effect on the model results but because I did not have time to test out all hyperparameter combinations I stuck with the largest batch size that would allow my models to fit in memory.  Again, steps per epoch were chosen to be a function of number of images and batch size.
-
-
-
 
 Model Results:  
 
@@ -170,22 +169,45 @@ Model | S1         | S2         | S3          |
 4     | 50         | 0.001      | 64          |  
 5     | 50         | 0.001      | 64          |  
 
-Model 3 again was the best performer and achieved a score of 0.421.
+Model 4 with 3 separable convultion layers in the encoder block had the largest score in my runs and was also above the required 0.40 so I chose that as my final model.
 
-My final chosen FCN consisted of:  
+Add pic for model results
+add pics for each of 3 classes
+add pic for training and validation
+talk about model time
 
-    Inputs (160x16x3 Images)
-    Encoder Layer 1, 32 Filters
-    Encoder Layer 2, 64 Filters
-    Encoder Layer 3, 128 Filters
-    1x1 convolutional Layer, 256 Filters
-    Decoder Layer 3, 128 Filters, Skip Connection from Encoder Layer 2
-    Decoder Layer 2, 64 Filters, Skip Connection from Encoder Layer 1    
-    Decoder Layer 1, 32 Filters, Skip Connection from Inputs
+To summarize final chosen fully convolutional network consisted of:  
+
+    Inputs (?, 160x16x3 Images)
+    Encoder Layer 1, 16 Filters, Stride=2
+    Encoder Layer 2, 32 Filters, Stride=2
+    Encoder Layer 3, 64 Filters, Stride=2
+    Encoder Layer 4, 128 Filters, Stride=2
+    1x1 convolutional Layer, 128 Filters
+    Decoder Layer 4, 128 Filters, skip connection from Encoder Layer 3
+    Decoder Layer 3, 64 Filters, skip Connection from Encoder Layer 2
+    Decoder Layer 2, 32 Filters, skip Connection from Encoder Layer 1    
+    Decoder Layer 1, 16 Filters, skip Connection from Inputs
     Output Layer
+
+Hyperparameters:
+
+    learning_rate = 0.01   # Determines how quickly a model learns
+    batch_size = 64        # How many images go through model at one time 
+    num_epochs = 20        # How many times the model uses all the data
+    steps_per_epoch = 65   # chosen to be 4131 training images // batch_size
+    validation_steps = 16  # chosen to be 1184 validation images // batch_size
 
 ### D: Future Enhancements  
 ---
-    1 Collect more data
-    2 Pooling layers, dropout
-    3 Deeper layers (more memory)
+
+Most of my model runs were less that the required 0.40 score and I felt that I should have had better success.  If I had more time I would have liked to try out a few things:
+
+    1 Collect more data - particularly for where the model performed the worst - locating the target from a distance.
+    2 Pooling and dropout layers - perhaps this could have prevented the overfitting beyond 20 epochs.
+    3 Different model architectures - larger models that may require more memory.
+
+This model could also be used for tracking other objects like animals and vehicles which have particular and detectible shapes.  To do this would require capturing data for those objects and retraining the model.
+
+
+
