@@ -81,12 +81,34 @@ Bilinear upsampling uses the weighted average of the four nearest known pixels f
 
 ### B: Model Evaluation
 ---
-**Scoring:**  
 
 To evaluate how well the model has performed the metric Intersection over Union (IoU) is calculated.  IoU measures how much (in precent of pixels) the ground truth image overlaps with the segmented image from the FCN model.  
 
     Intersection over Union (IoU) = Area of Overlap / Area of Union    
-    
+
+**Scoring**  
+
+    # Scores for while the quad is following behind the target.
+    true_pos1, false_pos1, false_neg1, IoU1
+
+    # Scores for images while the quad is on patrol and the target is not visable
+    true_pos2, false_pos2, false_neg2, iou2
+
+    # This score measures how well the neural network can detect the target from far away
+    true_pos3, false_pos3, false_neg3, iou3
+
+    # Sum all the true positives, etc from the three datasets to get a weight for the score
+    true_pos = true_pos1 + true_pos2 + true_pos3
+    false_pos = false_pos1 + false_pos2 + false_pos3
+    false_neg = false_neg1 + false_neg2 + false_neg3
+    weight = true_pos/(true_pos+false_neg+false_pos)
+
+    # The IoU for the dataset that never includes the hero is excluded from grading
+    final_IoU = (iou1 + iou3)/2
+
+    # And the final grade score is 
+    final_score = final_IoU * weight
+
 
 ### c: Model Output  
 ---
@@ -127,37 +149,13 @@ workers = 2
 
 **Using just original Training and Validation Images**  
 
-Model | Epochs |  LR   | Batch | Steps/Epoch | Score  |  
-:---: | :----: | :---: | :---: | :---------: | :---:  |  
-1     | 20     | 0.005 | 32    | 129         | 0.202  |  
-2     | 20     | 0.005 | 32    | 129         | 0.360  |  
-3     | 20     | 0.005 | 32    | 129         | 0.399  |  
-4     | 20     | 0.005 | 32    | 129         | 0.381  |  
-5     | 20     | 0.005 | 32    | 129         | 0.393  |  
-
-I did not get to the 0.40 required score with any of these runs but model3 was close.  For my next set of runs I chose to augment the data by flipping each image.  This doubled the number of training and validation images and helped to balance out some biases in the image poses.
-
-I kept the hyperparameters the same except I increased the steps_per_epoch and validation steps to account for twice as many images.
-
-#### Hyperparameters  
-
-learning_rate = 0.005   
-batch_size = 32         
-num_epochs = 20         
-steps_per_epoch = 259   # 8262 images // batch_size = 259  
-validation_steps = 84   # 2368 images // batch_size = 84  
-workers = 2             
-
-**Using Original + Flipped Training and Validation Images**  
-
-Model | Epochs |  LR   | Batch | Steps/Epoch | Score  |  
-:---: | :----: | :---: | :---: | :---------: | :---:  |  
-1     | 20     | 0.005 | 32    | 258         | 0.226  |  
-2     | 20     | 0.005 | 32    | 258         | 0.366  |  
-3     | 20     | 0.005 | 32    | 258         | 0.421  |  
-4     | 20     | 0.005 | 32    | 258         | 0.356  |  
-5     | 20     | 0.005 | 32    | 258         | 0.417  |  
-:---: | :----: | :---: | :---: | :---------: | :---:  |  
+Model | Weight | Final IoU | Final Score  |  
+:---: | :----: | :----: | :---:  |  
+1     | 50     | 0.001  | 64     |  
+2     | 50     | 0.001  | 64     |  
+3     | 50     | 0.001  | 64     |  
+4     | 50     | 0.001  | 64     |  
+5     | 50     | 0.001  | 64     |  
 
 Model 3 again was the best performer and achieved a score of 0.421.
 
