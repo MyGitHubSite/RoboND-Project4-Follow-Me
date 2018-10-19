@@ -152,7 +152,7 @@ The hyperparameters and model results for each run were:
     learning_rate = 0.01   # Determines how quickly a model learns
     batch_size = 64        # How many images go through model at one time 
     num_epochs = 20        # How many times the model uses all the data
-    steps_per_epoch = 65   # chosen to be 4131 training images // batch_size
+    steps_per_epoch = 64   # chosen to be 4131 training images // batch_size
     validation_steps = 16  # chosen to be 1184 validation images // batch_size
 
 All the hyperparameters were determined through brute force, aside from number of steps which were a function of images and batch size.  The trickiest parameters were the learning rate and the number of epochs.  If the learning rate is too high the model can learn too quickly and change it weights too much from epoch to epoch.  If the learning rate is too low the model will learn too slowly and may get stuck for a long time without finding a good solution.  Because the computation time for these models can be quite long I tried to focus on parameters for learning and epochs that would get me to the desired solution in the least amount of time.  
