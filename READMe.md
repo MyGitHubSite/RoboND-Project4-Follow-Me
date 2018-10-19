@@ -173,7 +173,8 @@ Model | 1 Sep Conv | 2 Sep Conv | 3 Sep Conv |
 
 ![Model Runs](./images/Model_Runs.png)
 
-Model 4 with 3 separable convultion layers in the encoder block had the largest score (0.425) in my runs and was also above the required 0.40 so I chose that as my final model.
+More separable convolution layers generally helped with model performance.  As well, deeper layers generally helped as well.
+Model 4 with four encoder and decoder layers and three separable convultion layers in each encoder block had the largest score (0.425) in my runs and was also above the required 0.40 so I chose that as my final model.
 
 ![Training and Validation curve](./images/Final_Model_Training.JPG)
 
