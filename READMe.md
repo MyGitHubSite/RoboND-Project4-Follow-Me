@@ -83,7 +83,7 @@ To evaluate how well the model has performed the metric Intersection over Union 
 
     Intersection over Union (IoU) = Area of Overlap / Area of Union    
 
-_Scoring_  
+Scoring:  
 
     # Scores for while the quad is following behind the target.
     true_pos1, false_pos1, false_neg1, IoU1
@@ -133,26 +133,25 @@ For my model runs I used the original training and validation data provided.
 
 The hyperparameters and model results for each run were:  
 
-_Hyperparameters_  
+Hyperparameters:  
 
-learning_rate = 0.005   
-batch_size = 32         
-num_epochs = 20         
-steps_per_epoch = 129   # 4131 images // batch_size = 129  
-validation_steps = 42   # 1184 images // batch_size = 42  
-workers = 2             
+    learning_rate = 0.005   
+    batch_size = 32         
+    num_epochs = 20         
+    steps_per_epoch = 129   # 4131 images // batch_size = 129  
+    validation_steps = 42   # 1184 images // batch_size = 42  
+    workers = 2             
 
-_Model Results_  
+Model Results:  
 
+Model | Weight     | Final IoU  | Final Score |  
+:---: | :----:     | :----:     | :---:       |  
+1     | 50         | 0.001      | 64          |  
+2     | 50         | 0.001      | 64          |  
+3     | 50         | 0.001      | 64          |  
+4     | 50         | 0.001      | 64          |  
+5     | 50         | 0.001      | 64          |  
 *Using just original Training and Validation Images*  
-
-Model | Weight | Final IoU | Final Score  |  
-:---: | :----: | :----: | :---:  |  
-1     | 50     | 0.001  | 64     |  
-2     | 50     | 0.001  | 64     |  
-3     | 50     | 0.001  | 64     |  
-4     | 50     | 0.001  | 64     |  
-5     | 50     | 0.001  | 64     |  
 
 Model 3 again was the best performer and achieved a score of 0.421.
 
