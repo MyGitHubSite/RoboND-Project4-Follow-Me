@@ -32,7 +32,7 @@ The single encoder block (layer) consists of a separable convolutional 2D layer 
 
 Each encoder layer allows the model to gain a better understanding of the shapes in the image at the expense of losing spatial information.
 
-**Separable Convolutional 2D with Batch Normalizxation**
+**Separable Convolutional 2D with Batch Normalization**
 
 Separable convolution layers are a convolution technique for increasing model performance by reducing the number of parameters in each convolution. This is achieved by performing a spatial convolution while keeping the channels separate, followed with a depthwise convolution. Instead of traversing the each input channel by each output channel and kernel, separable convolutions traverse the input channels with only the kernel, then traverse each of those feature maps with a 1x1 convolution for each output layer, before adding the two together. This technique allows for the efficient use of parameters.
 
