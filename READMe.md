@@ -169,14 +169,11 @@ Model | 1 Sep Conv | 2 Sep Conv | 3 Sep Conv |
 4     | 0.357      | 0.390      | 0.425      |  
 5     | 0.359      | 0.338      | 0.325      |  
 
-![Model Runs](../images/model_runs.png)
+![Model Runs](../images/Model_Runs.png)
 
 Model 4 with 3 separable convultion layers in the encoder block had the largest score (0.425) in my runs and was also above the required 0.40 so I chose that as my final model.
 
-![Training and Validation curve](../data/images/training_curve.png)
-
-add pics for each of 3 classes
-talk about model time
+![Training and Validation curve](../data/images/Final_Model_Training.png)
 
 To summarize final chosen fully convolutional network consisted of:  
 
