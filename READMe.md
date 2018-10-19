@@ -99,11 +99,11 @@ To arrive at a final score we need to calculate
     
         true_pos2, false_pos2, false_neg2, iou2
 
-    3) This score measures how well the neural network can detect the target from far away:
+    3) Scores for how well the neural network can detect the target from far away:
     
         true_pos3, false_pos3, false_neg3, iou3
 
-    Sum all the true positives, etc from the three datasets to get a weight for the score:
+    We sum all the true positives, false positives, and false negatives from the three datasets to get a weight for the score:
     
         true_pos = true_pos1 + true_pos2 + true_pos3
         false_pos = false_pos1 + false_pos2 + false_pos3
@@ -119,7 +119,7 @@ To arrive at a final score we need to calculate
         final_IoU * weight
 
 
-### c: Model Results   
+### C: Model Results   
 ---
 I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  During early investigations on model performance I noticed a few things that drove me to my architectures and hyperparamters used for further analysis.
 
