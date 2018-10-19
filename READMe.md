@@ -194,7 +194,7 @@ Hyperparameters:
     learning_rate = 0.01   # Determines how quickly a model learns
     batch_size = 64        # How many images go through model at one time 
     num_epochs = 20        # How many times the model uses all the data
-    steps_per_epoch = 65   # chosen to be 4131 training images // batch_size
+    steps_per_epoch = 64   # chosen to be 4131 training images // batch_size
     validation_steps = 16  # chosen to be 1184 validation images // batch_size
 
 ![My final notebook model is located here](model_training.ipynb)
