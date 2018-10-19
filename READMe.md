@@ -11,7 +11,7 @@ An FCN can extract features with different levels of complexity and segment them
 ### A: Fully Convolutional Network Defined   
 ---
 A Fully Convolutional Network (FCN) consists of three sections: 
-*
+
     Encoders: 
         a downsampling path which captures contextual information, but loses spatial information.  
 
@@ -20,7 +20,7 @@ A Fully Convolutional Network (FCN) consists of three sections:
 
     Decoders: 
         an upsampling path which recovers lost spatial inforamtion and restores the image to it's original size.  
-*
+
 The single encoder block (layer) consists of a separable convolutional 2D layer along with batch normalization.
 
     def encoder_block(input_layer, filters, strides):
@@ -29,7 +29,7 @@ The single encoder block (layer) consists of a separable convolutional 2D layer 
 
 Each encoder layer allows the model to gain a better understanding of the shapes in the image at the expense of losing spatial information.
 
-**Separable Convolutional 2D with Batch Normalization**
+_Separable Convolutional 2D with Batch Normalization_
 
 Separable convolution layers are a convolution technique for increasing model performance by reducing the number of parameters in each convolution. This is achieved by performing a spatial convolution while keeping the channels separate, followed with a depthwise convolution. Instead of traversing the each input channel by each output channel and kernel, separable convolutions traverse the input channels with only the kernel, then traverse each of those feature maps with a 1x1 convolution for each output layer, before adding the two together. This technique allows for the efficient use of parameters.
 
@@ -41,7 +41,7 @@ Separable convolution layers are a convolution technique for increasing model pe
 
 Batch normalization allows the network to learn more quickly by limiting large changes in the activation functions inside the network.
 
-**Convolutional 2D with Batch Normalization**
+_Convolutional 2D with Batch Normalization_
 
 With a 1x1 convolution layer, the data is flattened while still retaining spatial information from the encoder. An additional benefit of 1x1 convolutions is that they are an efficient approach for adding extra depth to the model.
 
@@ -67,7 +67,7 @@ The decoder block calculates the separable convolution layer of the concatenated
 
 Each decoder layer is able to reconstruct a little bit more spatial resolution from the layer before it. The final decoder layer will output a layer the same size as the original model input image, which will be used for guiding the quadcopter.
 
-**Bilinear Upsampling**
+_Bilinear Upsampling_
 
 Bilinear upsampling uses the weighted average of the four nearest known pixels from the given pixel, estimating the new pixel intensity value. Although bilinear upsampling loses some finer details when compared to transposed convolutions, it has much better performance, which is important for training large models quickly.
 
@@ -83,7 +83,7 @@ To evaluate how well the model has performed the metric Intersection over Union 
 
     Intersection over Union (IoU) = Area of Overlap / Area of Union    
 
-**Scoring**  
+_Scoring_  
 
     # Scores for while the quad is following behind the target.
     true_pos1, false_pos1, false_neg1, IoU1
@@ -133,7 +133,7 @@ For my model runs I used the original training and validation data provided.
 
 The hyperparameters and model results for each run were:  
 
-#### Hyperparameters  
+_Hyperparameters_  
 
 learning_rate = 0.005   
 batch_size = 32         
@@ -142,9 +142,9 @@ steps_per_epoch = 129   # 4131 images // batch_size = 129
 validation_steps = 42   # 1184 images // batch_size = 42  
 workers = 2             
 
-**Model Results**                    
+_Model Results_  
 
-**Using just original Training and Validation Images**  
+*Using just original Training and Validation Images*  
 
 Model | Weight | Final IoU | Final Score  |  
 :---: | :----: | :----: | :---:  |  
