@@ -115,7 +115,7 @@ For my model runs I used the original training and validation data provided.
 The hyperparameters and model results for each run were:  
 
 #### Hyperparameters  
----
+
 learning_rate = 0.005   
 batch_size = 32         
 num_epochs = 20         
@@ -124,7 +124,7 @@ validation_steps = 42   # 1184 images // batch_size = 42
 workers = 2             
 
 **Model Results**                    
----
+
 **Using just original Training and Validation Images**  
 
 Model | Epochs |  LR   | Batch | Steps/Epoch | Score  |  
@@ -140,7 +140,7 @@ I did not get to the 0.40 required score with any of these runs but model3 was c
 I kept the hyperparameters the same except I increased the steps_per_epoch and validation steps to account for twice as many images.
 
 #### Hyperparameters  
----
+
 learning_rate = 0.005   
 batch_size = 32         
 num_epochs = 20         
