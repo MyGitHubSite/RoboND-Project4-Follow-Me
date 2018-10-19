@@ -133,8 +133,6 @@ For my model runs I used the original training and validation data provided.
 
 The hyperparameters and model results for each run were:  
 
-Hyperparameters:  
-
     learning_rate = 0.005   
     batch_size = 32         
     num_epochs = 20         
@@ -151,7 +149,6 @@ Model | Weight     | Final IoU  | Final Score |
 3     | 50         | 0.001      | 64          |  
 4     | 50         | 0.001      | 64          |  
 5     | 50         | 0.001      | 64          |  
-*Using just original Training and Validation Images*  
 
 Model 3 again was the best performer and achieved a score of 0.421.
 
