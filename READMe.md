@@ -89,7 +89,7 @@ To evaluate how well the model has performed the metric Intersection over Union 
 
 Scoring:  
 
-To arrive at a final score we need to calculate 
+To arrive at a final score we need to calculate:  
 
     1) Scores for while the quad is following behind the target:
     
