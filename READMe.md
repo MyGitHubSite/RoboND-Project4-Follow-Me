@@ -161,19 +161,21 @@ Batch size and steps per epoch parameters also had an effect on the model result
 
 Model Results:  
 
-Model | S1         | S2         | S3          |  
-:---: | :----:     | :----:     | :---:       |  
-1     | 50         | 0.001      | 64          |  
-2     | 50         | 0.001      | 64          |  
-3     | 50         | 0.001      | 64          |  
-4     | 50         | 0.001      | 64          |  
-5     | 50         | 0.001      | 64          |  
+Model | 1 Sep Conv | 2 Sep Conv | 3 Sep Conv |  
+:---: | :----:     | :----:     | :---:      |  
+1     | 0.131      | 0.246      | 0.336      |  
+2     | 0.226      | 0.354      | 0.272      |  
+3     | 0.336      | 0.390      | 0.391      |  
+4     | 0.357      | 0.390      | 0.425      |  
+5     | 0.359      | 0.338      | 0.325      |  
 
-Model 4 with 3 separable convultion layers in the encoder block had the largest score in my runs and was also above the required 0.40 so I chose that as my final model.
+![Model Runs](../images/model_runs.png)
 
-Add pic for model results
+Model 4 with 3 separable convultion layers in the encoder block had the largest score (0.425) in my runs and was also above the required 0.40 so I chose that as my final model.
+
+![Training and Validation curve](../data/images/training_curve.png)
+
 add pics for each of 3 classes
-add pic for training and validation
 talk about model time
 
 To summarize final chosen fully convolutional network consisted of:  
