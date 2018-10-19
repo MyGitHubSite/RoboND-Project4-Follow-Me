@@ -109,8 +109,16 @@ Scoring:
 
 ### c: Model Output  
 ---
-I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  
+I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  During early investigations on model performance I noticed a few things that drove me to my architectures and hyperparamters used for further analysis.
 
+ - training and validation tended to diverge after 20 epochs -> I chose to stop my models at 20 epochs
+ - a higher learning rate with 20 epochs seemed to work better -> I chose 0.01
+ - the models performed better when the middle 1x1 conv layer was smaller rather than larger
+ - I needed to find the balance between too few layers and too many layers -> I chose to try out 1 to 5 enc/dec layers.
+ - multiple separable convolution layers in the decoder block seemed to work better -> I tried out 1 to 3 layers for each model.
+ 
+Below are the models I set up for analysis.  For each model I included 3 scenarios with 1, 2, or 3 separable convolution layers in the decoder block for a total of 15 total model runs.  For my model runs I used the original training and validation data provided.  
+ 
       Model 1        Model 2        Model 3        Model 4         Model 5  
       ------------   ------------   ------------   -------------   -------------  
       Inputs         Inputs         Inputs         Inputs          Inputs  
@@ -119,7 +127,7 @@ I tried various combinations of FCNs with increasingly deeper layers to achieve 
                                     Encoder(64)    Encoder(64)     Encoder(64)  
                                                    Encoder(128)    Encoder(128)  
                                                                    Encoder(256)  
-      1x1Conv(32)    1x1Conv(64)    1x1Conv(128)   1x1Conv(256)    1x1Conv(512)  
+      1x1Conv(16)    1x1Conv(32)    1x1Conv(64)    1x1Conv(128)    1x1Conv(256)  
                                                                    Decoder(256)  
                                                    Decoder(128)    Decoder(128)  
                                     Decoder(64)    Decoder(64)     Decoder(64)  
@@ -129,20 +137,17 @@ I tried various combinations of FCNs with increasingly deeper layers to achieve 
       ------------   ------------   ------------   -------------   -------------  
       Note: Number of filters in ()  
 
-For my model runs I used the original training and validation data provided.  
-
 The hyperparameters and model results for each run were:  
 
-    learning_rate = 0.005   
-    batch_size = 32         
-    num_epochs = 20         
-    steps_per_epoch = 129   # 4131 images // batch_size = 129  
-    validation_steps = 42   # 1184 images // batch_size = 42  
-    workers = 2             
+    learning_rate = 0.01   
+    batch_size = 64         
+    num_epochs = 20        # 
+    steps_per_epoch = 65   # chosen to be 4131 training images // batch_size
+    validation_steps = 16  # chosen to be 1184 validation images // batch_size
 
 Model Results:  
 
-Model | Weight     | Final IoU  | Final Score |  
+Model | S1         | S2         | S3          |  
 :---: | :----:     | :----:     | :---:       |  
 1     | 50         | 0.001      | 64          |  
 2     | 50         | 0.001      | 64          |  
