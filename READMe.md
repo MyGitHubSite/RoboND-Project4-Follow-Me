@@ -1,10 +1,10 @@
 # Udacity RoboND - Project 4: Deep Learning - Follow Me
 
-In this project We are trying to locate a target ("what") in an image and determine "where" in the image the target is located.  A typical classification model only needs to understand what is in an image and does not retain pixel spatial information.  However, in order to understand where an object class resides in an image we need keep the spatial information for each pixel and assign the pixels to each class.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
+In this project we are given images taken from a quadcopter and we are trying to identify a target ("what") in an image and determine "where" in the image the target is located.  To do this we need to build a neural network model.  A typical classification model only needs to understand what is in an image and does not retain pixel spatial information.  However, in order to understand where an object resides in an image we need keep the spatial information for each pixel and assign the pixels to a category or object class.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
 
-An FCN can extract features with different levels of complexity and segment them into separate categories. In this project we are interested in segmenting the pixels into three classses: 
+A fully convolutional network can extract features with different levels of complexity and segment them into separate categories. In this project we are interested in segmenting the pixels into three classses: 
 
-  1) the target person ("hero") 
+  1) the target person ("hero") that we want the quadcopter to identify and follow
   2) other people  
   3) the background  
 
@@ -19,7 +19,7 @@ A Fully Convolutional Network (FCN) consists of three sections:
         helps to reduce the dimensionality of a layer without losing information about pixel locations.  
 
     Decoders: 
-        an upsampling path which recovers lost spatial inforamtion and restores the image to it's original size.  
+        an upsampling path which recovers lost spatial information and restores the image to it's original size.  
 
 The single encoder block (layer) consists of a separable convolutional 2D layer along with batch normalization.
 
@@ -54,10 +54,10 @@ With a 1x1 convolution layer, the data is flattened while still retaining spatia
 The decoder block is comprised of three parts:  
 
 1) A bilinear upsampling layer.  
-2) A layer to concatenate the upsampled small_ip_layer and the large_ip_layer.   
-3) Some (one or two) additional separable convolution layers to extract some more spatial information from prior layers.   
+2) A layer to concatenate the upsampled small input layer and the large input layer.   
+3) Some (one or more) additional separable convolution layers to extract some more spatial information from prior layers.   
 
-The decoder block calculates the separable convolution layer of the concatenated bilinear upsample of the smaller input layer with the larger input layer. This structure mimics the use of skip connections by having the larger decoder block input layer act as the skip connection.  Skip connections allow the network to retain spatial information from prior layers that were lost in subsequent convolution layers. Skip layers use the output of one layer as the input to another layer. By using information from multiple image sizes, the model is able to make more precise segmentation decisions
+The decoder block calculates the separable convolution layer of the concatenated bilinear upsample of the smaller input layer with the larger input layer. This structure mimics the use of skip connections by having the larger decoder block input layer act as the skip connection.  Skip connections allow the network to retain spatial information from prior layers that were lost in subsequent convolution layers. Skip layers use the output of one layer as the input to another layer. By using information from multiple image sizes, the model is able to make more precise segmentation decisions.
 
     def decoder_block(small_ip_layer, large_ip_layer, filters):
         upsample = bilinear_upsample(small_ip_layer)
@@ -85,33 +85,41 @@ To evaluate how well the model has performed the metric Intersection over Union 
 
 Scoring:  
 
-    # Scores for while the quad is following behind the target.
-    true_pos1, false_pos1, false_neg1, IoU1
+To arrive at a final score we need to calculate 
 
-    # Scores for images while the quad is on patrol and the target is not visable
-    true_pos2, false_pos2, false_neg2, iou2
+    1) Scores for while the quad is following behind the target:
+    
+        true_pos1, false_pos1, false_neg1, IoU1
 
-    # This score measures how well the neural network can detect the target from far away
-    true_pos3, false_pos3, false_neg3, iou3
+    2) Scores for images while the quad is on patrol and the target is not visable:
+    
+        true_pos2, false_pos2, false_neg2, iou2
 
-    # Sum all the true positives, etc from the three datasets to get a weight for the score
-    true_pos = true_pos1 + true_pos2 + true_pos3
-    false_pos = false_pos1 + false_pos2 + false_pos3
-    false_neg = false_neg1 + false_neg2 + false_neg3
-    weight = true_pos/(true_pos+false_neg+false_pos)
+    3) This score measures how well the neural network can detect the target from far away:
+    
+        true_pos3, false_pos3, false_neg3, iou3
 
-    # The IoU for the dataset that never includes the hero is excluded from grading
-    final_IoU = (iou1 + iou3)/2
+    Sum all the true positives, etc from the three datasets to get a weight for the score:
+    
+        true_pos = true_pos1 + true_pos2 + true_pos3
+        false_pos = false_pos1 + false_pos2 + false_pos3
+        false_neg = false_neg1 + false_neg2 + false_neg3
+        weight = true_pos / (true_pos + false_neg + false_pos)
 
-    # And the final grade score is 
-    final_score = final_IoU * weight
+    The IoU for the dataset that never includes the hero is excluded from grading:
+    
+        final_IoU = (iou1 + iou3)/2
+
+    The final score is:
+    
+        final_IoU * weight
 
 
-### c: Model Output  
+### c: Model Results   
 ---
 I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  During early investigations on model performance I noticed a few things that drove me to my architectures and hyperparamters used for further analysis.
 
- - training and validation tended to diverge after 20 epochs -> I chose to stop my models at 20 epochs
+ - training and validation tended to diverge after 10 to 20 epochs -> I chose to stop my models at 20 epochs
  - a higher learning rate with 20 epochs seemed to work better -> I chose 0.01
  - the models performed better when the middle 1x1 conv layer was smaller rather than larger
  - I needed to find the balance between too few layers and too many layers -> I chose to try out 1 to 5 enc/dec layers.
@@ -139,11 +147,18 @@ Below are the models I set up for analysis.  For each model I included 3 scenari
 
 The hyperparameters and model results for each run were:  
 
-    learning_rate = 0.01   
-    batch_size = 64         
-    num_epochs = 20        # 
+    learning_rate = 0.01   # Determines how quickly a model learns
+    batch_size = 64        # How many images go through model at one time 
+    num_epochs = 20        # How many times the model uses all the data
     steps_per_epoch = 65   # chosen to be 4131 training images // batch_size
     validation_steps = 16  # chosen to be 1184 validation images // batch_size
+
+All the hyperparamters were determined through brute force, aside from number of steps which were a function of images and batch size.  The trickiest parameters were the learning rate and the number of epochs.  If the learning rate is too high the model can learn too quickly and change it weights too much from epoch to epoch.  If the learning rate is too low the model will learn too slowly and may get stuck for a long time without finding a good solution.  Because the computation time for these models can be quite long I tried to focus on parameters for learning and epochs that would get me to the desired solution in the least amount of time.  
+
+Batch size and steps per epoch parameters also had an effect on the model results but because I did not have time to test out all hyperparameter combinations I stuck with the largest batch size that would allow my models to fit in memory.  Again, steps per epoch were chosen to be a function of number of images and batch size.
+
+
+
 
 Model Results:  
 
