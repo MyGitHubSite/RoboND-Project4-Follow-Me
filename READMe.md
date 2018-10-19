@@ -1,6 +1,6 @@
 # Udacity RoboND - Project 4: Deep Learning - Follow Me
 
-(./images/PatrolImage.JPG)
+(./images/PatrolImage.PNG)
 
 In this project we are given images taken from a quadcopter and we are trying to identify a target ("what") in an image and determine "where" in the image the target is located.  To do this we need to build a neural network model.  A typical classification model only needs to understand what is in an image and does not retain pixel spatial information.  However, in order to understand where an object resides in an image we need keep the spatial information for each pixel and assign the pixels to a category or object class.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
 
