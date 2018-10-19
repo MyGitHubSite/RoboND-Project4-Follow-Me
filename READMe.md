@@ -1,10 +1,6 @@
 # Udacity RoboND - Project 4: Deep Learning - Follow Me
-
-### Intro: What are we trying to do in this project?
 ---
-We are trying to locate a target ("what") in an image and determine "where" in the image the target is located.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
-
-A typical classification model only needs to understand what is in an image and does not retain pixel spatial information.  However, in order to understand where an object class resides in an image we need keep the spatial information for each pixel and assign the pixels to each class.
+In this project We are trying to locate a target ("what") in an image and determine "where" in the image the target is located.  A typical classification model only needs to understand what is in an image and does not retain pixel spatial information.  However, in order to understand where an object class resides in an image we need keep the spatial information for each pixel and assign the pixels to each class.  For this we need to use a fully convolutional network (FCN) which retains spatial information, rather than a fully connected network which does not.
 
 An FCN can extract features with different levels of complexity and segment them into separate categories. In this project we are interested in segmenting the pixels into three classses: 
 
@@ -46,7 +42,7 @@ Separable convolution layers are a convolution technique for increasing model pe
         output_layer = layers.BatchNormalization()(output_layer) 
         return 
 
-Batch normalization allows the network to learn more quickly by limiting big changes in the activation functions inside the network.
+Batch normalization allows the network to learn more quickly by limiting large changes in the activation functions inside the network.
 
 **Convolutional 2D with Batch Normalization**
 
@@ -87,33 +83,36 @@ Bilinear upsampling uses the weighted average of the four nearest known pixels f
 ---
 **Scoring:**  
 
-To evaluate how well the model has performed the metric Intersection over Union (IoU) is calculated.  IoU measures how much (in number of pixels) the ground truth image overlaps with the segmented image from the FCN model.  
+To evaluate how well the model has performed the metric Intersection over Union (IoU) is calculated.  IoU measures how much (in precent of pixels) the ground truth image overlaps with the segmented image from the FCN model.  
 
     Intersection over Union (IoU) = Area of Overlap / Area of Union    
+    
 ---
 ### c: Model Output  
 ---
 I tried various combinations of FCNs with increasingly deeper layers to achieve the required final score > 0.40.  
 
       Model 1        Model 2        Model 3        Model 4         Model 5  
-      ------------   ------------   ------------   -------------   -------------
-      Inputs         Inputs         Inputs         Inputs          Inputs
-      Encoder(32)    Encoder(32)    Encoder(32)    Encoder(32)     Encoder(32)
-      1x1Conv(64)    Encoder(64)    Encoder(64)    Encoder(64)     Encoder(64)
-      Decoder(32)    1x1Conv(128)   Encoder(128)   Encoder(128)    Encoder(128)
-      Outputs        Decoder(64)    1x1Conv(256)   Encoder(256)    Encoder(256)
-                     Decoder(32)    Decoder(128)   1x1Conv(512)    Encoder(512)
-                     Outputs        Decoder(64)    Decoder(256)    1x1Conv(1024)
-                                    Decoder(32)    Decoder(128)    Decoder(512)
-                                    Outputs        Decoder(64)     Decoder(256)
-                                                   Decoder(32)     Decoder(128)
-                                                   Outputs         Decoder(64)
-                                                                   Decoder(32)
-                                                                   Outputs
       ------------   ------------   ------------   -------------   -------------  
-      Note: Number of filters in ()
+      Inputs         Inputs         Inputs         Inputs          Inputs  
+      Encoder(16)    Encoder(16)    Encoder(16)    Encoder(16)     Encoder(16)  
+                     Encoder(32)    Encoder(32)    Encoder(32)     Encoder(32)  
+                                    Encoder(64)    Encoder(64)     Encoder(64)  
+                                                   Encoder(128)    Encoder(128)  
+                                                                   Encoder(256)  
+      1x1Conv(32)    1x1Conv(64)    1x1Conv(128)   1x1Conv(256)    1x1Conv(512)  
+                                                                   Decoder(256)  
+                                                   Decoder(128)    Decoder(128)  
+                                    Decoder(64)    Decoder(64)     Decoder(64)  
+                     Decoder(32)    Decoder(32)    Decoder(32)     Decoder(32)  
+      Decoder(16)    Decoder(16)    Decoder(16)    Decoder(16)     Decoder(16)  
+      Outputs        Outputs        Outputs        Outputs         Outputs  
+      ------------   ------------   ------------   -------------   -------------  
+      Note: Number of filters in ()  
 
-For my model runs I used the original training and validation data.  The hyperparameters and model results for each run were:
+For my model runs I used the original training and validation data provided.  
+
+The hyperparameters and model results for each run were:  
 
 #### Hyperparameters  
 ---
